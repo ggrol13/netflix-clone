@@ -18,8 +18,8 @@ export class DubbingEntity extends BaseEntity {
   @Column({ length: 20, name: 'language', nullable: false })
   language: string;
 
-  @Column({ length: 256, name: 'dubbing_path', nullable: false })
-  dubbingPath: string;
+  @Column({ length: 256, name: 'dubbing_file_path', nullable: false })
+  dubbingFilePath: string;
 
   @CreateDateColumn({ name: 'created_at', type: Date })
   createdAt: Date;
@@ -27,7 +27,10 @@ export class DubbingEntity extends BaseEntity {
   @UpdateDateColumn({ name: 'updated_at', type: Date })
   updatedAt: Date;
 
-  @ManyToOne(() => ContentEntity, (content) => content.id)
+  @ManyToOne(() => ContentEntity, (content) => content.id, {
+    createForeignKeyConstraints: false,
+    nullable: false,
+  })
   @JoinColumn({ name: 'content_id' })
   content: ContentEntity;
 }

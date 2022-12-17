@@ -5,10 +5,15 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { AccountEntity } from './account.entity';
+import { PreferenceEntity } from '../../preference/entities/preference.entity';
+import { PickedContentsEntity } from '../../preference/entities/picked-contents.entity';
+import { HistoryEntity } from '../../history/entities/history.entity';
+import { WatchingEntity } from '../../history/entities/watching.entity';
 
 @Entity('profile')
 export class ProfileEntity extends BaseEntity {
@@ -36,7 +41,23 @@ export class ProfileEntity extends BaseEntity {
   @UpdateDateColumn({ name: 'updated_at', type: Date })
   updatedAt: Date;
 
-  @ManyToOne(() => AccountEntity, (account) => account.id)
+  @ManyToOne(() => AccountEntity, (account) => account.id, {
+    createForeignKeyConstraints: false,
+    nullable: false,
+  })
+  @Index()
   @JoinColumn({ name: 'account_id' })
   account: AccountEntity;
+
+  @OneToMany(() => PreferenceEntity, (preference) => preference.id)
+  preference: PreferenceEntity[];
+
+  @OneToMany(() => PickedContentsEntity, (pickedContents) => pickedContents.id)
+  pickedContents: PickedContentsEntity[];
+
+  @OneToMany(() => HistoryEntity, (history) => history.id)
+  history: HistoryEntity[];
+
+  @OneToMany(() => WatchingEntity, (watching) => watching.id)
+  watching: WatchingEntity[];
 }

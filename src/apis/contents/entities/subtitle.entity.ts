@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -18,8 +19,8 @@ export class SubtitleEntity extends BaseEntity {
   @Column({ length: 20, name: 'language', nullable: false })
   language: string;
 
-  @Column({ length: 256, name: 'subtitle_path', nullable: false })
-  subtitlePath: string;
+  @Column({ length: 256, name: 'subtitle_file_path', nullable: false })
+  subtitleFilePath: string;
 
   @CreateDateColumn({ name: 'created_at', type: Date })
   createdAt: Date;
@@ -27,7 +28,11 @@ export class SubtitleEntity extends BaseEntity {
   @UpdateDateColumn({ name: 'updated_at', type: Date })
   updatedAt: Date;
 
-  @ManyToOne(() => ContentEntity, (content) => content.id)
+  @ManyToOne(() => ContentEntity, (content) => content.id, {
+    createForeignKeyConstraints: false,
+    nullable: false,
+  })
+  @Index()
   @JoinColumn({ name: 'content_id' })
   content: ContentEntity;
 }

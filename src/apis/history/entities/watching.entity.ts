@@ -1,5 +1,6 @@
 import {
   BaseEntity,
+  Column,
   CreateDateColumn,
   Entity,
   Index,
@@ -10,14 +11,16 @@ import {
 } from 'typeorm';
 import { ContentEntity } from '../../contents/entities/content.entity';
 import { ProfileEntity } from '../../user/entities/profile.entity';
+import { EpisodeEntity } from '../../contents/entities/episode.entity';
+import { SeasonEntity } from '../../contents/entities/season.entity';
 
 @Entity('history')
-export class HistoryEntity extends BaseEntity {
+export class WatchingEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @CreateDateColumn({ name: 'end_date', type: Date })
-  endDate: Date;
+  @Column({ name: 'time_stamp', type: 'integer', nullable: false })
+  timeStamp: Date;
 
   @CreateDateColumn({ name: 'created_at', type: Date })
   createdAt: Date;
@@ -29,6 +32,7 @@ export class HistoryEntity extends BaseEntity {
     createForeignKeyConstraints: false,
     nullable: false,
   })
+  @Index()
   @JoinColumn({ name: 'content_id' })
   content: ContentEntity;
 
@@ -39,4 +43,12 @@ export class HistoryEntity extends BaseEntity {
   @Index()
   @JoinColumn({ name: 'profile_id' })
   profile: ProfileEntity;
+
+  @ManyToOne(() => EpisodeEntity, (episode) => episode.id, {
+    createForeignKeyConstraints: false,
+    nullable: false,
+  })
+  @Index()
+  @JoinColumn({ name: 'episode_id' })
+  episode: EpisodeEntity;
 }

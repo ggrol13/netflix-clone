@@ -5,10 +5,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { ContentEntity } from './content.entity';
+import { EpisodeEntity } from './episode.entity';
 
 @Entity('season')
 export class SeasonEntity extends BaseEntity {
@@ -24,7 +26,13 @@ export class SeasonEntity extends BaseEntity {
   @UpdateDateColumn({ name: 'updated_at', type: Date })
   updatedAt: Date;
 
-  @ManyToOne(() => ContentEntity, (content) => content.id)
+  @ManyToOne(() => ContentEntity, (content) => content.id, {
+    createForeignKeyConstraints: false,
+    nullable: false,
+  })
   @JoinColumn({ name: 'content_id' })
   content: ContentEntity;
+
+  @OneToMany(() => EpisodeEntity, (episode) => episode.id)
+  episode: EpisodeEntity[];
 }

@@ -14,6 +14,8 @@ import { SeasonEntity } from './season.entity';
 import { SubtitleEntity } from './subtitle.entity';
 import { PickedContentsEntity } from '../../preference/entities/picked-contents.entity';
 import { PreferenceEntity } from '../../preference/entities/preference.entity';
+import { HistoryEntity } from '../../history/entities/history.entity';
+import { WatchingEntity } from '../../history/entities/watching.entity';
 
 @Entity('content')
 export class ContentEntity extends BaseEntity {
@@ -26,7 +28,7 @@ export class ContentEntity extends BaseEntity {
   @Column({ length: 256, name: 'thumbnail', nullable: false })
   thumbnail: string;
 
-  @Column({ length: 256, name: 'detail', nullable: false })
+  @Column({ type: 'text', name: 'detail', nullable: false })
   detail: string;
 
   @Column({ type: 'integer', name: 'age_limit', nullable: false })
@@ -73,4 +75,10 @@ export class ContentEntity extends BaseEntity {
 
   @OneToMany(() => PreferenceEntity, (preference) => preference.id)
   preference: PreferenceEntity[];
+
+  @OneToMany(() => HistoryEntity, (history) => history.id)
+  history: HistoryEntity[];
+
+  @OneToMany(() => WatchingEntity, (watching) => watching.id)
+  watching: WatchingEntity[];
 }

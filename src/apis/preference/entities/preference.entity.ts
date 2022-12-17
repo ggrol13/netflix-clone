@@ -3,6 +3,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -24,9 +26,19 @@ export class PreferenceEntity extends BaseEntity {
   @UpdateDateColumn({ name: 'updated_at', type: Date })
   updatedAt: Date;
 
-  @ManyToOne(() => ContentEntity, (content) => content.id)
+  @ManyToOne(() => ContentEntity, (content) => content.id, {
+    createForeignKeyConstraints: false,
+    nullable: false,
+  })
+  @Index()
+  @JoinColumn({ name: 'content_id' })
   content: ContentEntity;
 
-  @ManyToOne(() => ProfileEntity, (profile) => profile.id)
+  @ManyToOne(() => ProfileEntity, (profile) => profile.id, {
+    createForeignKeyConstraints: false,
+    nullable: false,
+  })
+  @Index()
+  @JoinColumn({ name: 'profile_id' })
   profile: ProfileEntity;
 }

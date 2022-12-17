@@ -24,7 +24,10 @@ export class GenreEntity extends BaseEntity {
   @UpdateDateColumn({ name: 'updated_at', type: Date })
   updatedAt: Date;
 
-  @ManyToOne(() => ContentEntity, (content) => content.id)
+  @ManyToOne(() => ContentEntity, (content) => content.id, {
+    createForeignKeyConstraints: false,
+    nullable: false,
+  })
   @JoinColumn({ name: 'content_id' })
   content: ContentEntity;
 }
