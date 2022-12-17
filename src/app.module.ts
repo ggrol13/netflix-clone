@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UserModule } from './apis/user/user.module';
 import { HistoryModule } from './apis/history/history.module';
 import { PreferenceModule } from './apis/preference/preference.module';
@@ -25,7 +23,7 @@ import { join } from 'path';
         password: config.get('DB_PASSWORD', 'test'),
         database: config.get('DB_SCHEMA', 'netflix_clone'),
         entities: [join(__dirname, '/**/entities/*.entity.js')],
-        synchronize: true,
+        synchronize: false,
         logging: true,
         keepConnectionAlive: true,
       }),
@@ -36,7 +34,5 @@ import { join } from 'path';
     PreferenceModule,
     ContentsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

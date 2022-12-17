@@ -21,7 +21,7 @@ export class AccountEntity extends BaseEntity {
   @Column({ length: 128, name: 'password', nullable: false })
   password: string;
 
-  @Column({ length: 15, name: 'email', nullable: false })
+  @Column({ length: 25, name: 'email', nullable: false })
   email: string;
 
   @Column({ length: 1, name: 'gender', nullable: false })

@@ -17,8 +17,10 @@ import {
   UpdatePreferenceDto,
 } from './dto/update-preference.dto';
 import { PickedContentsService } from './picked-contents.service';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('preference')
+@ApiTags('preference')
 export class PreferenceController {
   constructor(
     private readonly preferenceService: PreferenceService,
