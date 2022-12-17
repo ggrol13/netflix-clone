@@ -10,13 +10,10 @@ import {
 import { ContentEntity } from '../../contents/entities/content.entity';
 import { ProfileEntity } from '../../user/entities/profile.entity';
 
-@Entity('preference')
-export class PreferenceEntity extends BaseEntity {
+@Entity('picked-contents')
+export class PickedContentsEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @Column({ type: 'integer', nullable: false, name: 'preference' })
-  preference: string;
 
   @CreateDateColumn({ name: 'created_at', type: Date })
   createdAt: Date;

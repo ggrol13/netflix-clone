@@ -7,6 +7,7 @@ import { PreferenceModule } from './apis/preference/preference.module';
 import { ContentsModule } from './apis/contents/contents.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -23,10 +24,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         username: config.get('DB_USERNAME', 'test'),
         password: config.get('DB_PASSWORD', 'test'),
         database: config.get('DB_SCHEMA', 'netflix_clone'),
-        entities: [],
+        entities: [join(__dirname, '/**/entities/*.entity.js')],
         synchronize: true,
+        logging: true,
+        keepConnectionAlive: true,
       }),
     }),
+
     UserModule,
     HistoryModule,
     PreferenceModule,

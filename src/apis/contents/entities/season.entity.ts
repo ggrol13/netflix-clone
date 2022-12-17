@@ -3,20 +3,20 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ContentEntity } from '../../contents/entities/content.entity';
-import { ProfileEntity } from '../../user/entities/profile.entity';
+import { ContentEntity } from './content.entity';
 
-@Entity('preference')
-export class PreferenceEntity extends BaseEntity {
+@Entity('season')
+export class SeasonEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'integer', nullable: false, name: 'preference' })
-  preference: string;
+  @Column({ type: 'integer', name: 'season_num', nullable: false })
+  seasonNum: number;
 
   @CreateDateColumn({ name: 'created_at', type: Date })
   createdAt: Date;
@@ -25,8 +25,6 @@ export class PreferenceEntity extends BaseEntity {
   updatedAt: Date;
 
   @ManyToOne(() => ContentEntity, (content) => content.id)
+  @JoinColumn({ name: 'content_id' })
   content: ContentEntity;
-
-  @ManyToOne(() => ProfileEntity, (profile) => profile.id)
-  profile: ProfileEntity;
 }
