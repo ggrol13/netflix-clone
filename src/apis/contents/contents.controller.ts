@@ -26,8 +26,10 @@ import {
 } from './dto/update-content.dto';
 import { TranslationService } from './translation.service';
 import { EpisodeService } from './episode.service';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('contents')
+@ApiTags('contents')
 export class ContentsController {
   constructor(
     private readonly contentsService: ContentsService,
