@@ -5,7 +5,7 @@ import { ContentsModule } from './apis/contents/contents.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { join } from 'path';
-import { AuthModule } from './apis/user/auth/auth.module';
+import { AuthModule } from './apis/auth/auth.module';
 
 @Module({
   imports: [
