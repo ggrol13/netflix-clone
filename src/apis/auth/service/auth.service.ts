@@ -4,6 +4,7 @@ import { hash } from 'typeorm/util/StringUtils';
 import { AccountEntity } from '../../user/entities/account.entity';
 import { UserType } from '../../../common/decorator/user.decorator';
 import { TokenService } from './token.service';
+import { LoginResponse } from '../response/auth.response';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +24,10 @@ export class AuthService {
     return null;
   }
 
-  async login(user: UserType) {
-    return {};
+  async login(user: UserType): Promise<LoginResponse> {
+    return {
+      accessToken: this.tokenService.createAccessToken(user),
+      refreshToken: this.tokenService.createRefreshToken(user),
+    };
   }
 }

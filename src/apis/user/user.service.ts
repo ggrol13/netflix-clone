@@ -4,8 +4,8 @@ import { AccountRepository } from './repositories/account.repository';
 import { AccountEntity } from './entities/account.entity';
 import { hash } from 'typeorm/util/StringUtils';
 import { ProfileRepository } from './repositories/profile.repository';
-import { ProfileEntity } from './entities/profile.entity';
 import { DeleteResult } from 'typeorm/query-builder/result/DeleteResult';
+import { CreateProfileResponse } from './response/user.response';
 
 @Injectable()
 export class UserService {
@@ -29,8 +29,14 @@ export class UserService {
     return await this.accountRepo.findOneBy({ email, password });
   }
 
-  async createProfile(dto: CreateProfileDto): Promise<ProfileEntity> {
-    return await this.profileRepo.save({ ...dto });
+  async createProfile(
+    dto: CreateProfileDto,
+    accountId: string,
+  ): Promise<CreateProfileResponse> {
+    return await this.profileRepo.save({
+      ...dto,
+      account: { id: accountId },
+    });
   }
 
   async deleteProfile(id: string): Promise<DeleteResult> {

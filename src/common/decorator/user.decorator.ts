@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
 export interface UserType {
-  id: string;
+  accountId: string;
   email: string;
 }
 
