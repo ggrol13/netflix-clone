@@ -6,4 +6,15 @@ export class CreateAccountDto {
   birthDate: Date;
 }
 
-export class CreateProfileDto {}
+export class CreateProfileDto {
+  name: string;
+  thumbnail: string;
+  language: string;
+  ageLimit: number;
+  accountId: string;
+}
+
+export class AccountLoginDto {
+  email: string;
+  password: string;
+}

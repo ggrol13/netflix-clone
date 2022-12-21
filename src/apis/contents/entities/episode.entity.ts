@@ -31,7 +31,6 @@ export class EpisodeEntity extends BaseEntity {
 
   @ManyToOne(() => SeasonEntity, (season) => season.id, {
     createForeignKeyConstraints: false,
-    nullable: false,
   })
   @JoinColumn({ name: 'season_id' })
   season: SeasonEntity;

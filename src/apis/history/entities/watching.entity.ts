@@ -30,7 +30,6 @@ export class WatchingEntity extends BaseEntity {
 
   @ManyToOne(() => ContentEntity, (content) => content.id, {
     createForeignKeyConstraints: false,
-    nullable: false,
   })
   @Index()
   @JoinColumn({ name: 'content_id' })
@@ -38,7 +37,6 @@ export class WatchingEntity extends BaseEntity {
 
   @ManyToOne(() => ProfileEntity, (profile) => profile.id, {
     createForeignKeyConstraints: false,
-    nullable: false,
   })
   @Index()
   @JoinColumn({ name: 'profile_id' })
@@ -46,7 +44,6 @@ export class WatchingEntity extends BaseEntity {
 
   @ManyToOne(() => EpisodeEntity, (episode) => episode.id, {
     createForeignKeyConstraints: false,
-    nullable: false,
   })
   @Index()
   @JoinColumn({ name: 'episode_id' })

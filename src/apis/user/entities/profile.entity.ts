@@ -44,7 +44,6 @@ export class ProfileEntity extends BaseEntity {
 
   @ManyToOne(() => AccountEntity, (account) => account.id, {
     createForeignKeyConstraints: false,
-    nullable: false,
   })
   @Index()
   @JoinColumn({ name: 'account_id' })

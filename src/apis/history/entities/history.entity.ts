@@ -27,7 +27,6 @@ export class HistoryEntity extends BaseEntity {
 
   @ManyToOne(() => ContentEntity, (content) => content.id, {
     createForeignKeyConstraints: false,
-    nullable: false,
   })
   @JoinColumn({ name: 'content_id' })
   content: ContentEntity;

@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { UserModule } from './apis/user/user.module';
 import { HistoryModule } from './apis/history/history.module';
 import { PreferenceModule } from './apis/preference/preference.module';
 import { ContentsModule } from './apis/contents/contents.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { join } from 'path';
+import { AuthModule } from './apis/user/auth/auth.module';
 
 @Module({
   imports: [
@@ -28,8 +28,7 @@ import { join } from 'path';
         keepConnectionAlive: true,
       }),
     }),
-
-    UserModule,
+    AuthModule,
     HistoryModule,
     PreferenceModule,
     ContentsModule,

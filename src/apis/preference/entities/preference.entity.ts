@@ -28,7 +28,6 @@ export class PreferenceEntity extends BaseEntity {
 
   @ManyToOne(() => ContentEntity, (content) => content.id, {
     createForeignKeyConstraints: false,
-    nullable: false,
   })
   @Index()
   @JoinColumn({ name: 'content_id' })
@@ -36,7 +35,6 @@ export class PreferenceEntity extends BaseEntity {
 
   @ManyToOne(() => ProfileEntity, (profile) => profile.id, {
     createForeignKeyConstraints: false,
-    nullable: false,
   })
   @Index()
   @JoinColumn({ name: 'profile_id' })
