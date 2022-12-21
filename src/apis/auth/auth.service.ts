@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { UserService } from '../user.service';
-import { AccountLoginDto } from '../dto/create-user.dto';
+import { UserService } from '../user/user.service';
+import { AccountLoginDto } from '../user/dto/create-user.dto';
 import { hash } from 'typeorm/util/StringUtils';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
-import { LocalStrategy } from './local.strategy';
+import { LocalStrategy } from './strategy/local.strategy';
+import { AccountEntity } from '../user/entities/account.entity';
 
 @Injectable()
 export class AuthService {
@@ -13,21 +14,23 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<any> {
-    console.log('AuthService');
+  async validateUser(
+    email: string,
+    password: string,
+  ): Promise<AccountEntity | null> {
     const user = await this.usersService.findOneByEmail(email, password);
-    console.log(user);
     if (user && user.password === hash(password)) {
-      const { password, ...result } = user;
-      return result;
+      return user;
     }
     return null;
   }
 
-  async login(email: string, user: any) {
+  async login(email: string, user: AccountEntity) {
     const payload = { email };
+    const { ['password']: password, ...userNoPW } = user;
+
     return {
-      ...user,
+      ...userNoPW,
       access_token: this.jwtService.sign(payload, jwtConstants),
     };
   }

@@ -5,8 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccountRepository } from './repositories/account.repository';
 import { AccountEntity } from './entities/account.entity';
 import { JwtService } from '@nestjs/jwt';
-import { AuthService } from './auth/auth.service';
-import { LocalStrategy } from './auth/local.strategy';
+import { AuthService } from '../auth/auth.service';
+import { LocalStrategy } from '../auth/strategy/local.strategy';
 import { ProfileRepository } from './repositories/profile.repository';
 
 @Module({
