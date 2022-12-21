@@ -11,5 +11,4 @@ export class CreateProfileDto {
   thumbnail: string;
   language: string;
   ageLimit: number;
-  accountId: string;
 }
