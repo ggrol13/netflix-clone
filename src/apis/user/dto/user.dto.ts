@@ -13,8 +13,3 @@ export class CreateProfileDto {
   ageLimit: number;
   accountId: string;
 }
-
-export class AccountLoginDto {
-  email: string;
-  password: string;
-}
