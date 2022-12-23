@@ -27,31 +27,4 @@ export class TokenService {
       expiresIn: this.DAY * 30,
     });
   }
-
-  reCreateAccessToken({ accessToken, refreshToken }: TokenDto) {
-    const accessDecoded = JSON.parse(
-      JSON.stringify(this.jwtService.decode(accessToken)),
-    );
-    const refreshDecoded = JSON.parse(
-      JSON.stringify(this.jwtService.decode(refreshToken)),
-    );
-    let payload;
-    if (
-      accessDecoded.email === refreshDecoded.email &&
-      accessDecoded.accountId === refreshDecoded.accountId
-    ) {
-      payload = {
-        email: accessDecoded.email,
-        accountId: accessDecoded.accountId,
-      };
-      const accessToken = this.jwtService.sign(payload, {
-        secret: this.configService.get('JWT_SECRET'),
-        expiresIn: this.HOUR,
-      });
-      return {
-        accessToken,
-      };
-    }
-    return null;
-  }
 }

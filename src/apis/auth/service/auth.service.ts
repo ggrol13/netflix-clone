@@ -31,8 +31,4 @@ export class AuthService {
       refreshToken: this.tokenService.createRefreshToken(user),
     };
   }
-
-  reCreateAccessToken(dto: TokenDto) {
-    return this.tokenService.reCreateAccessToken(dto);
-  }
 }

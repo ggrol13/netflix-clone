@@ -6,7 +6,7 @@ import { User, UserType } from '../../common/decorator/user.decorator';
 import { LoginDto } from './dto/auth.dto';
 import { NewAccessToken } from '../../common/decorator/newAccessToken.decorator';
 import { TokenDto } from './dto/token.dto';
-import { JwtAuthGuard } from './guard/jwt-auth.guard';
+import { NewAccessTokenAuthGuard } from './guard/newAccessToken-auth.guard';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -22,9 +22,9 @@ export class AuthController {
     return this.authService.login(user);
   }
 
-  @UseGuards(NewAccessToken)
+  @UseGuards(NewAccessTokenAuthGuard)
   @Post('newAccessToken')
   token(@NewAccessToken() newAccessToken: TokenDto) {
-    return this.authService.reCreateAccessToken(newAccessToken);
+    return newAccessToken;
   }
 }

@@ -4,6 +4,6 @@ import { TokenDto } from '../../apis/auth/dto/token.dto';
 export const NewAccessToken = createParamDecorator<any, any, TokenDto>(
   (data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
-    return request.body;
+    return request.user;
   },
 );
