@@ -1,9 +1,11 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './service/auth.service';
 import { LocalAuthGuard } from './guard/local-auth.guard';
 import { User, UserType } from '../../common/decorator/user.decorator';
 import { LoginDto } from './dto/auth.dto';
+import { NewAccessToken } from '../../common/decorator/newAccessToken.decorator';
+import { TokenDto } from './dto/token.dto';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
 
 @Controller('auth')
@@ -20,9 +22,9 @@ export class AuthController {
     return this.authService.login(user);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Post('test')
-  test(@User() user: UserType) {
-    return user;
+  @UseGuards(NewAccessToken)
+  @Post('newAccessToken')
+  token(@NewAccessToken() newAccessToken: TokenDto) {
+    return this.authService.reCreateAccessToken(newAccessToken);
   }
 }

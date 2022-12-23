@@ -5,6 +5,7 @@ import { AccountEntity } from '../../user/entities/account.entity';
 import { UserType } from '../../../common/decorator/user.decorator';
 import { TokenService } from './token.service';
 import { LoginResponse } from '../response/auth.response';
+import { TokenDto } from '../dto/token.dto';
 
 @Injectable()
 export class AuthService {
@@ -29,5 +30,9 @@ export class AuthService {
       accessToken: this.tokenService.createAccessToken(user),
       refreshToken: this.tokenService.createRefreshToken(user),
     };
+  }
+
+  reCreateAccessToken(dto: TokenDto) {
+    return this.tokenService.reCreateAccessToken(dto);
   }
 }

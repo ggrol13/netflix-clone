@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserType } from '../../../common/decorator/user.decorator';
 import { ConfigService } from '@nestjs/config';
+import { TokenDto } from '../dto/token.dto';
 
 @Injectable()
 export class TokenService {
@@ -27,5 +28,30 @@ export class TokenService {
     });
   }
 
-  reCreateAccessToken() {}
+  reCreateAccessToken({ accessToken, refreshToken }: TokenDto) {
+    const accessDecoded = JSON.parse(
+      JSON.stringify(this.jwtService.decode(accessToken)),
+    );
+    const refreshDecoded = JSON.parse(
+      JSON.stringify(this.jwtService.decode(refreshToken)),
+    );
+    let payload;
+    if (
+      accessDecoded.email === refreshDecoded.email &&
+      accessDecoded.accountId === refreshDecoded.accountId
+    ) {
+      payload = {
+        email: accessDecoded.email,
+        accountId: accessDecoded.accountId,
+      };
+      const accessToken = this.jwtService.sign(payload, {
+        secret: this.configService.get('JWT_SECRET'),
+        expiresIn: this.HOUR,
+      });
+      return {
+        accessToken,
+      };
+    }
+    return null;
+  }
 }
