@@ -19,11 +19,15 @@ import {
 import { RefreshTokenGuard } from './guard/refresh-token.guard';
 import { LevelOneAuthGuard } from './guard/levelOne-auth.guard';
 import { RefreshTokenResponse } from './response/auth.response';
+import { TokenService } from './service/token.service';
 
 @Controller('auth')
 @ApiTags('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly tokenService: TokenService,
+  ) {}
 
   /**
    * auth login
@@ -39,8 +43,8 @@ export class AuthController {
    **/
   @UseGuards(RefreshTokenGuard)
   @Post('refreshToken')
-  async token(@User() user: UserType): Promise<RefreshTokenResponse> {
-    return;
+  async token(@User() user: UserType) {
+    return this.tokenService.createAccessToken(user);
   }
 
   /**

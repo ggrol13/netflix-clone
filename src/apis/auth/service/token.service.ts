@@ -17,28 +17,28 @@ export class TokenService {
     private configService: ConfigService,
   ) {}
 
-  createAccessToken(user: UserType) {
+  createAccessToken(user: UserType): string {
     return this.jwtService.sign(user, {
       secret: this.configService.get('JWT_SECRET'),
       expiresIn: this.HOUR,
     });
   }
 
-  createRefreshToken(user: UserType) {
+  createRefreshToken(user: UserType): string {
     return this.jwtService.sign(user, {
       secret: this.configService.get('REFRESH_SECRET'),
       expiresIn: this.DAY * 30,
     });
   }
 
-  createProfileAccessToken(profile: ProfileType) {
+  createProfileAccessToken(profile: ProfileType): string {
     return this.jwtService.sign(profile, {
       secret: this.configService.get('JWT_SECRET'),
       expiresIn: this.HOUR,
     });
   }
 
-  createProfileRefreshToken(profile: ProfileType) {
+  createProfileRefreshToken(profile: ProfileType): string {
     return this.jwtService.sign(profile, {
       secret: this.configService.get('REFRESH_SECRET'),
       expiresIn: this.DAY * 30,
