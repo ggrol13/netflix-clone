@@ -13,12 +13,12 @@ import { LocalAuthGuard } from './guard/local-auth.guard';
 import { User, UserType } from '../../common/decorator/user.decorator';
 import { LoginDto } from './dto/auth.dto';
 import {
-  NewAccessToken,
-  NewAccessTokenType,
-} from '../../common/decorator/newAccessToken.decorator';
-import { NewAccessTokenAuthGuard } from './guard/newAccessToken-auth.guard';
+  RefreshToken,
+  TokenType,
+} from '../../common/decorator/refresh-token.decorator';
+import { RefreshTokenGuard } from './guard/refresh-token.guard';
 import { LevelOneAuthGuard } from './guard/levelOne-auth.guard';
-import { NewAccessTokenResponse } from './response/auth.response';
+import { RefreshTokenResponse } from './response/auth.response';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -37,12 +37,10 @@ export class AuthController {
   /**
    * auth recreate AccessToken
    **/
-  @UseGuards(NewAccessTokenAuthGuard)
-  @Post('newAccessToken')
-  async token(
-    @NewAccessToken() newAccessToken: NewAccessTokenType,
-  ): Promise<NewAccessTokenResponse> {
-    return newAccessToken;
+  @UseGuards(RefreshTokenGuard)
+  @Post('refreshToken')
+  async token(@User() user: UserType): Promise<RefreshTokenResponse> {
+    return;
   }
 
   /**

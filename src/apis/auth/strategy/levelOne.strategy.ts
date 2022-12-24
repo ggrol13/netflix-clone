@@ -23,14 +23,14 @@ export class LevelOneStrategy extends PassportStrategy(Strategy, 'levelOne') {
     }
 
     try {
-      const accessDecoded = JSON.parse(JSON.stringify(jwt.decode(token)));
-      if (accessDecoded.level > 1) {
+      const accessDecoded = jwt.decode(token);
+      if (accessDecoded['level'] > 1) {
         throw new UnauthorizedException('Level is lower');
       }
       return {
-        email: accessDecoded.email,
-        accountId: accessDecoded.accountId,
-        level: accessDecoded.level,
+        email: accessDecoded['email'],
+        accountId: accessDecoded['accountId'],
+        level: accessDecoded['level'],
       };
     } catch (e) {
       if (e instanceof SyntaxError) {

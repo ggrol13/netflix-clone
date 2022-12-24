@@ -3,6 +3,6 @@ export class LoginResponse {
   refreshToken: string;
 }
 
-export class NewAccessTokenResponse {
+export class RefreshTokenResponse {
   accessToken: string;
 }
