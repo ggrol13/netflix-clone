@@ -23,7 +23,6 @@ export class LevelOneStrategy extends PassportStrategy(Strategy, 'levelOne') {
     }
 
     try {
-      jwt.verify(token, this.configService.get('JWT_SECRET'));
       const accessDecoded = JSON.parse(JSON.stringify(jwt.decode(token)));
       if (accessDecoded.level > 1) {
         throw new UnauthorizedException('Level is lower');

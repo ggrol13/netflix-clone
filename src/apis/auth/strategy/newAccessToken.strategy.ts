@@ -28,7 +28,6 @@ export class NewAccessTokenStrategy extends PassportStrategy(
     }
 
     try {
-      jwt.verify(token, this.configService.get('JWT_SECRET'));
       const accessDecoded = JSON.parse(JSON.stringify(jwt.decode(token)));
       const body = JSON.parse(JSON.stringify(req.body));
       const refreshDecoded = JSON.parse(
