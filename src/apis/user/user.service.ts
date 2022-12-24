@@ -4,10 +4,9 @@ import { AccountRepository } from './repositories/account.repository';
 import { AccountEntity } from './entities/account.entity';
 import { hash } from 'typeorm/util/StringUtils';
 import { ProfileRepository } from './repositories/profile.repository';
-import { DeleteResult } from 'typeorm/query-builder/result/DeleteResult';
 import {
   CreateProfileResponse,
-  GetProfilesResponse,
+  CreateUserResponse,
 } from './response/user.response';
 import { UserType } from '../../common/decorator/user.decorator';
 import { ProfileEntity } from './entities/profile.entity';
@@ -19,7 +18,7 @@ export class UserService {
     private readonly profileRepo: ProfileRepository,
   ) {}
 
-  async create(dto: CreateAccountDto): Promise<AccountEntity> {
+  async create(dto: CreateAccountDto): Promise<CreateUserResponse> {
     dto.password = hash(dto.password);
     return await this.accountRepo.save({
       ...dto,
@@ -44,7 +43,7 @@ export class UserService {
     });
   }
 
-  async findOneByProfileID(profileId: string) {
+  async findOneByProfileID(profileId: string): Promise<ProfileEntity> {
     return await this.profileRepo.findOneBy({
       id: profileId,
     });
@@ -59,9 +58,24 @@ export class UserService {
     }
   }
 
-  async getProfiles(user: UserType): Promise<ProfileEntity[]> {
-    const profiles = await this.profileRepo.find({
-      where: { account: { id: user.accountId } },
+  async getProfiles(user: UserType) {
+    const profiles = await this.accountRepo.findOne({
+      select: {
+        id: true,
+        phoneNum: true,
+        profile: {
+          id: true,
+          name: true,
+          thumbnail: true,
+          ageLimit: true,
+        },
+      },
+      relations: {
+        profile: true,
+      },
+      where: {
+        id: user.accountId,
+      },
     });
     return profiles;
   }

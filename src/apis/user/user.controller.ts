@@ -17,7 +17,6 @@ import {
   CreateUserResponse,
   GetProfilesResponse,
 } from './response/user.response';
-import { ProfileEntity } from './entities/profile.entity';
 
 @Controller('user')
 @ApiTags('user')
@@ -28,7 +27,7 @@ export class UserController {
    * create user
    **/
   @Post()
-  async create(@Body() dto: CreateAccountDto): Promise<CreateUserResponse> {
+  async create(@Body() dto: CreateAccountDto) {
     return this.userService.create(dto);
   }
 
@@ -37,7 +36,7 @@ export class UserController {
    **/
   @UseGuards(LevelOneAuthGuard)
   @Get('profiles')
-  async getProfiles(@User() user: UserType): Promise<GetProfilesResponse[]> {
+  async getProfiles(@User() user: UserType) {
     return this.userService.getProfiles(user);
   }
 
