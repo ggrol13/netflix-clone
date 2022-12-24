@@ -8,6 +8,7 @@ import { JwtStrategy } from './strategy/jwt.strategy';
 import { AuthController } from './auth.controller';
 import { TokenService } from './service/token.service';
 import { NewAccessTokenStrategy } from './strategy/newAccessToken.strategy';
+import { LevelOneStrategy } from './strategy/levelOne.strategy';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { NewAccessTokenStrategy } from './strategy/newAccessToken.strategy';
     JwtStrategy,
     TokenService,
     NewAccessTokenStrategy,
+    LevelOneStrategy,
   ],
 })
 export class AuthModule {}

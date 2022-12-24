@@ -36,8 +36,8 @@ export class ProfileEntity extends BaseEntity {
   @Column({ type: 'integer', name: 'age_limit', nullable: false })
   ageLimit: number;
 
-  @Column({ name: 'level', default: 2 })
-  level: string;
+  @Column({ type: 'integer', name: 'level', default: 2 })
+  level: number;
 
   @CreateDateColumn({ name: 'created_at', type: Date })
   createdAt: Date;

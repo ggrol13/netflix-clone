@@ -1,12 +1,24 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './service/auth.service';
 import { LocalAuthGuard } from './guard/local-auth.guard';
 import { User, UserType } from '../../common/decorator/user.decorator';
 import { LoginDto } from './dto/auth.dto';
-import { NewAccessToken } from '../../common/decorator/newAccessToken.decorator';
-import { TokenDto } from './dto/token.dto';
+import {
+  NewAccessToken,
+  NewAccessTokenType,
+} from '../../common/decorator/newAccessToken.decorator';
 import { NewAccessTokenAuthGuard } from './guard/newAccessToken-auth.guard';
+import { LevelOneAuthGuard } from './guard/levelOne-auth.guard';
+import { NewAccessTokenResponse } from './response/auth.response';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -22,9 +34,23 @@ export class AuthController {
     return this.authService.login(user);
   }
 
+  /**
+   * auth recreate AccessToken
+   **/
   @UseGuards(NewAccessTokenAuthGuard)
   @Post('newAccessToken')
-  token(@NewAccessToken() newAccessToken: TokenDto) {
+  async token(
+    @NewAccessToken() newAccessToken: NewAccessTokenType,
+  ): Promise<NewAccessTokenResponse> {
     return newAccessToken;
+  }
+
+  /**
+   * auth login profile
+   **/
+  @UseGuards(LevelOneAuthGuard)
+  @Post('login/:profileId')
+  async loginProfile(@Param('profileId') profileId, @User() user: UserType) {
+    return this.authService.loginProfile(user, profileId);
   }
 }

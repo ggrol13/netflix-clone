@@ -5,7 +5,12 @@ import { AccountEntity } from './entities/account.entity';
 import { hash } from 'typeorm/util/StringUtils';
 import { ProfileRepository } from './repositories/profile.repository';
 import { DeleteResult } from 'typeorm/query-builder/result/DeleteResult';
-import { CreateProfileResponse } from './response/user.response';
+import {
+  CreateProfileResponse,
+  GetProfilesResponse,
+} from './response/user.response';
+import { UserType } from '../../common/decorator/user.decorator';
+import { ProfileEntity } from './entities/profile.entity';
 
 @Injectable()
 export class UserService {
@@ -39,7 +44,25 @@ export class UserService {
     });
   }
 
-  async deleteProfile(id: string): Promise<DeleteResult> {
-    return await this.profileRepo.delete({ id });
+  async findOneByProfileID(profileId: string) {
+    return await this.profileRepo.findOneBy({
+      id: profileId,
+    });
+  }
+
+  async deleteProfile(id: string): Promise<string | null> {
+    try {
+      await this.profileRepo.delete({ id });
+      return 'successfully deleted';
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async getProfiles(user: UserType): Promise<ProfileEntity[]> {
+    const profiles = await this.profileRepo.find({
+      where: { account: { id: user.accountId } },
+    });
+    return profiles;
   }
 }

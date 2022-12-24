@@ -33,8 +33,8 @@ export class AccountEntity extends BaseEntity {
   @Column({ type: Date, name: 'birth_date' })
   birthDate: Date;
 
-  @Column({ name: 'level', default: 1 })
-  level: string;
+  @Column({ type: 'integer', name: 'level', default: 1 })
+  level: number;
 
   @CreateDateColumn({ name: 'created_at', type: Date })
   createdAt: Date;

@@ -23,6 +23,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     const user: UserType = {
       email: auth.email,
       accountId: auth.id,
+      level: auth.level,
     };
     return done(null, user);
   }
