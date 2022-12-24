@@ -7,7 +7,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { AuthController } from './auth.controller';
 import { TokenService } from './service/token.service';
-import { NewAccessTokenStrategy } from './strategy/newAccessToken.strategy';
+import { RefreshTokenStrategy } from './strategy/refresh-token.strategy';
 import { LevelOneStrategy } from './strategy/levelOne.strategy';
 
 @Module({
@@ -25,7 +25,7 @@ import { LevelOneStrategy } from './strategy/levelOne.strategy';
     LocalStrategy,
     JwtStrategy,
     TokenService,
-    NewAccessTokenStrategy,
+    RefreshTokenStrategy,
     LevelOneStrategy,
   ],
 })
