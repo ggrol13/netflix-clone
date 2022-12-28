@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { HistoryModule } from './apis/history/history.module';
 import { PreferenceModule } from './apis/preference/preference.module';
 import { ContentsModule } from './apis/contents/contents.module';
@@ -6,6 +11,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { AuthModule } from './apis/auth/auth.module';
+import { AuthMiddleware } from './apis/auth/middleware/auth.middleware';
 
 @Module({
   imports: [
@@ -34,4 +40,10 @@ import { AuthModule } from './apis/auth/auth.module';
     ContentsModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes(...[{ path: '/user/*', method: RequestMethod.ALL }]);
+  }
+}

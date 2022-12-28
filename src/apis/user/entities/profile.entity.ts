@@ -36,8 +36,8 @@ export class ProfileEntity extends BaseEntity {
   @Column({ type: 'integer', name: 'age_limit', nullable: false })
   ageLimit: number;
 
-  @Column({ type: 'integer', name: 'level', default: 2 })
-  level: number;
+  @Column({ length: 10, name: 'role', default: 'profile' })
+  role: string;
 
   @CreateDateColumn({ name: 'created_at', type: Date })
   createdAt: Date;
@@ -47,20 +47,27 @@ export class ProfileEntity extends BaseEntity {
 
   @ManyToOne(() => AccountEntity, (account) => account.id, {
     createForeignKeyConstraints: false,
+    lazy: true,
   })
   @Index()
   @JoinColumn({ name: 'account_id' })
   account: AccountEntity;
 
-  @OneToMany(() => PreferenceEntity, (preference) => preference.id)
+  @OneToMany(() => PreferenceEntity, (preference) => preference.id, {
+    lazy: true,
+  })
   preference: PreferenceEntity[];
 
-  @OneToMany(() => PickedContentsEntity, (pickedContents) => pickedContents.id)
+  @OneToMany(
+    () => PickedContentsEntity,
+    (pickedContents) => pickedContents.id,
+    { lazy: true },
+  )
   pickedContents: PickedContentsEntity[];
 
-  @OneToMany(() => HistoryEntity, (history) => history.id)
+  @OneToMany(() => HistoryEntity, (history) => history.id, { lazy: true })
   history: HistoryEntity[];
 
-  @OneToMany(() => WatchingEntity, (watching) => watching.id)
+  @OneToMany(() => WatchingEntity, (watching) => watching.id, { lazy: true })
   watching: WatchingEntity[];
 }

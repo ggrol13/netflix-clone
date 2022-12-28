@@ -18,10 +18,14 @@ export class TokenService {
   ) {}
 
   createAccessToken(user: UserType): string {
-    return this.jwtService.sign(user, {
-      secret: this.configService.get('JWT_SECRET'),
-      expiresIn: this.HOUR,
-    });
+    try {
+      return this.jwtService.sign(user, {
+        secret: this.configService.get('JWT_SECRET'),
+        expiresIn: this.HOUR,
+      });
+    } catch (e) {
+      return e;
+    }
   }
 
   createRefreshToken(user: UserType): string {

@@ -30,20 +30,4 @@ export class AuthService {
       refreshToken: this.tokenService.createRefreshToken(user),
     };
   }
-
-  async loginProfile(
-    user: UserType,
-    profileId: string,
-  ): Promise<LoginResponse> {
-    const profile = await this.usersService.findOneByProfileID(profileId);
-    const payload = {
-      name: profile.name,
-      accountId: user.accountId,
-      level: profile.level,
-    };
-    return {
-      accessToken: this.tokenService.createProfileAccessToken(payload),
-      refreshToken: this.tokenService.createProfileRefreshToken(payload),
-    };
-  }
 }

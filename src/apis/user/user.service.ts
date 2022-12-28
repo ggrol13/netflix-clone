@@ -9,20 +9,26 @@ import {
   CreateUserResponse,
 } from './response/user.response';
 import { UserType } from '../../common/decorator/user.decorator';
-import { ProfileEntity } from './entities/profile.entity';
+import { LoginResponse } from '../auth/response/auth.response';
+import { TokenService } from '../auth/service/token.service';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly accountRepo: AccountRepository,
     private readonly profileRepo: ProfileRepository,
+    private readonly tokenService: TokenService,
   ) {}
 
   async create(dto: CreateAccountDto): Promise<CreateUserResponse> {
     dto.password = hash(dto.password);
-    return await this.accountRepo.save({
-      ...dto,
-    });
+    try {
+      return await this.accountRepo.save({
+        ...dto,
+      });
+    } catch (e) {
+      return e;
+    }
   }
 
   async findOneByEmail(
@@ -37,16 +43,14 @@ export class UserService {
     dto: CreateProfileDto,
     accountId: string,
   ): Promise<CreateProfileResponse> {
-    return await this.profileRepo.save({
-      ...dto,
-      account: { id: accountId },
-    });
-  }
-
-  async findOneByProfileID(profileId: string): Promise<ProfileEntity> {
-    return await this.profileRepo.findOneBy({
-      id: profileId,
-    });
+    try {
+      return await this.profileRepo.save({
+        ...dto,
+        account: { id: accountId },
+      });
+    } catch (e) {
+      return e;
+    }
   }
 
   async deleteProfile(id: string): Promise<string | null> {
@@ -59,7 +63,7 @@ export class UserService {
   }
 
   async getProfiles(user: UserType) {
-    const profiles = await this.accountRepo.findOne({
+    const profiles = await this.accountRepo.find({
       select: {
         id: true,
         phoneNum: true,
@@ -78,5 +82,25 @@ export class UserService {
       },
     });
     return profiles;
+  }
+
+  async loginProfile(
+    user: UserType,
+    profileId: string,
+  ): Promise<LoginResponse> {
+    try {
+      const profile = await this.profileRepo.findOneBy({ id: profileId });
+      const payload = {
+        name: profile.name,
+        accountId: user.accountId,
+        role: profile.role,
+      };
+      return {
+        accessToken: this.tokenService.createProfileAccessToken(payload),
+        refreshToken: this.tokenService.createProfileRefreshToken(payload),
+      };
+    } catch (e) {
+      return e;
+    }
   }
 }

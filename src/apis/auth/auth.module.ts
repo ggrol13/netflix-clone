@@ -9,6 +9,7 @@ import { AuthController } from './auth.controller';
 import { TokenService } from './service/token.service';
 import { RefreshTokenStrategy } from './strategy/refresh-token.strategy';
 import { LevelOneStrategy } from './strategy/levelOne.strategy';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { LevelOneStrategy } from './strategy/levelOne.strategy';
     TokenService,
     RefreshTokenStrategy,
     LevelOneStrategy,
+    ConfigService,
   ],
 })
 export class AuthModule {}

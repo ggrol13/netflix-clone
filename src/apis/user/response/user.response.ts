@@ -20,7 +20,7 @@ export class CreateUserResponse extends PickType(AccountEntity, [
   'gender',
   'phoneNum',
   'birthDate',
-  'level',
+  'role',
   'createdAt',
   'updatedAt',
 ]) {}
