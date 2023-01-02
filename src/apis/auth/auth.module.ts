@@ -8,7 +8,6 @@ import { JwtStrategy } from './strategy/jwt.strategy';
 import { AuthController } from './auth.controller';
 import { TokenService } from './service/token.service';
 import { RefreshTokenStrategy } from './strategy/refresh-token.strategy';
-import { LevelOneStrategy } from './strategy/levelOne.strategy';
 import { ConfigService } from '@nestjs/config';
 
 @Module({
@@ -27,7 +26,6 @@ import { ConfigService } from '@nestjs/config';
     JwtStrategy,
     TokenService,
     RefreshTokenStrategy,
-    LevelOneStrategy,
     ConfigService,
   ],
 })

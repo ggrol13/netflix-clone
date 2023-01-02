@@ -5,11 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccountRepository } from './repositories/account.repository';
 import { AccountEntity } from './entities/account.entity';
 import { ProfileRepository } from './repositories/profile.repository';
-import { LevelOneStrategy } from '../auth/strategy/levelOne.strategy';
 import { APP_GUARD } from '@nestjs/core';
-import { RolesGuard } from '../auth/guard/roles.guard';
+import { UniversalGuard } from '../auth/guard/universal.guard';
 import { TokenService } from '../auth/service/token.service';
 import { JwtService } from '@nestjs/jwt';
+import { UniversalStrategy } from '../auth/strategy/universal.strategy';
 
 @Module({
   imports: [TypeOrmModule.forFeature([AccountEntity])],
@@ -19,12 +19,8 @@ import { JwtService } from '@nestjs/jwt';
     TokenService,
     JwtService,
     AccountRepository,
+    UniversalStrategy,
     ProfileRepository,
-    LevelOneStrategy,
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    },
   ],
   exports: [UserService],
 })

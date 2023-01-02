@@ -19,20 +19,26 @@ export class TokenService {
 
   createAccessToken(user: UserType): string {
     try {
-      return this.jwtService.sign(user, {
-        secret: this.configService.get('JWT_SECRET'),
-        expiresIn: this.HOUR,
-      });
+      return this.jwtService.sign(
+        { ...user, role: 'account' },
+        {
+          secret: this.configService.get('JWT_SECRET'),
+          expiresIn: this.HOUR,
+        },
+      );
     } catch (e) {
       return e;
     }
   }
 
   createRefreshToken(user: UserType): string {
-    return this.jwtService.sign(user, {
-      secret: this.configService.get('REFRESH_SECRET'),
-      expiresIn: this.DAY * 30,
-    });
+    return this.jwtService.sign(
+      { ...user, role: 'account' },
+      {
+        secret: this.configService.get('REFRESH_SECRET'),
+        expiresIn: this.DAY * 30,
+      },
+    );
   }
 
   createProfileAccessToken(profile: ProfileType): string {

@@ -11,7 +11,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { AuthModule } from './apis/auth/auth.module';
-import { AuthMiddleware } from './apis/auth/middleware/auth.middleware';
+import { UniversalStrategy } from './apis/auth/strategy/universal.strategy';
+import { UniversalGuard } from './apis/auth/guard/universal.guard';
 
 @Module({
   imports: [
@@ -39,11 +40,6 @@ import { AuthMiddleware } from './apis/auth/middleware/auth.middleware';
     PreferenceModule,
     ContentsModule,
   ],
+  providers: [UniversalStrategy, UniversalGuard],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(AuthMiddleware)
-      .forRoutes(...[{ path: '/user/*', method: RequestMethod.ALL }]);
-  }
-}
+export class AppModule {}

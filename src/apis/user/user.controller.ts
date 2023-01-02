@@ -13,9 +13,10 @@ import { CreateAccountDto, CreateProfileDto } from './dto/user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { User, UserType } from '../../common/decorator/user.decorator';
-import { Role } from '../../common/enums/role.enum';
+import { Role } from '../../common/type/role.type';
 import { Roles } from '../../common/decorator/role.decorator';
-import { ResponseInterceptor } from '../../common/interceptor/responseInterceptor';
+import { ResponseInterceptor } from '../../common/interceptor/response.interceptor';
+import { UniversalGuard } from '../auth/guard/universal.guard';
 
 @Controller('user')
 @ApiTags('user')
@@ -44,12 +45,10 @@ export class UserController {
   /**
    * get profiles
    **/
-  @UseGuards(JwtAuthGuard)
   @Get('profiles')
-  @Roles(Role.Account)
-  @UseInterceptors(ResponseInterceptor)
+  @Roles('account')
   async getProfiles(@User() user: UserType) {
-    return this.userService.getProfiles(user);
+    return await this.userService.getProfiles(user);
   }
 
   /**
@@ -83,29 +82,22 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Delete('profile/:profileId')
   @Roles(Role.Account)
+  @UseInterceptors(ResponseInterceptor)
   deleteProfile(@Param('profileId') profileId: string) {
     return this.userService.deleteProfile(profileId);
   }
 
-  @UseGuards(JwtAuthGuard)
+  /**
+   * login profile
+   **/
   @Post('profile/:profileId')
-  @Roles(Role.Account)
+  @Roles('account')
   @UseInterceptors(ResponseInterceptor)
   async loginProfile(
     @User() user: UserType,
     @Param('profileId') profileId: string,
   ) {
-    const profile = this.userService.loginProfile(user, profileId);
-
-    if (!profile['name']) {
-      return {
-        success: false,
-        error: profile,
-      };
-    }
-    return {
-      success: true,
-      data: profile,
-    };
+    console.log(user);
+    return await this.userService.loginProfile(user, profileId);
   }
 }

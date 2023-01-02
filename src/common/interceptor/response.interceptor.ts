@@ -5,7 +5,6 @@ import {
   CallHandler,
 } from '@nestjs/common';
 import { map, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 export interface Response<T> {
   data: T;
@@ -23,12 +22,12 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
           return {
             success: false,
             data: null,
-            error: data,
+            error: data.data,
           };
         }
         return {
           success: true,
-          data,
+          data: data.data,
           error: null,
         };
       }),

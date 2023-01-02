@@ -14,17 +14,16 @@ export class CreateProfileResponse extends PickType(ProfileEntity, [
   account: { id: string };
 }
 
+export class GetProfilesResponse extends AccountEntity {
+  __profile__: ProfileEntity[];
+}
+
 export class CreateUserResponse extends PickType(AccountEntity, [
   'id',
   'email',
   'gender',
   'phoneNum',
   'birthDate',
-  'role',
   'createdAt',
   'updatedAt',
-]) {}
-
-export class GetProfilesResponse extends OmitType(CreateProfileResponse, [
-  'account',
 ]) {}

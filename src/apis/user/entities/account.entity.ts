@@ -33,9 +33,6 @@ export class AccountEntity extends BaseEntity {
   @Column({ type: Date, name: 'birth_date' })
   birthDate: Date;
 
-  @Column({ length: 10, name: 'role', default: 'account' })
-  role: string;
-
   @CreateDateColumn({ name: 'created_at', type: Date })
   createdAt: Date;
 

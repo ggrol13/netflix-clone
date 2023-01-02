@@ -10,7 +10,8 @@
           "dtoFileNameSuffix": [
             ".dto.ts",
             ".entity.ts",
-            ".response.ts"
+            ".response.ts",
+            ".interceptor.ts"
           ],
           "introspectComments": true,
           "controllerKeyOfComment": "summary"

@@ -15,7 +15,7 @@ import { User, UserType } from '../../common/decorator/user.decorator';
 import { LoginDto } from './dto/auth.dto';
 import { RefreshTokenGuard } from './guard/refresh-token.guard';
 import { TokenService } from './service/token.service';
-import { ResponseInterceptor } from '../../common/interceptor/responseInterceptor';
+import { ResponseInterceptor } from '../../common/interceptor/response.interceptor';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -30,9 +30,8 @@ export class AuthController {
    **/
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  @UseInterceptors(ResponseInterceptor)
   async login(@Body() dto: LoginDto, @User() user: UserType) {
-    return this.authService.login(user);
+    return await this.authService.login(user);
   }
 
   /**

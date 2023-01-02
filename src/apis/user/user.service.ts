@@ -7,6 +7,7 @@ import { ProfileRepository } from './repositories/profile.repository';
 import {
   CreateProfileResponse,
   CreateUserResponse,
+  GetProfilesResponse,
 } from './response/user.response';
 import { UserType } from '../../common/decorator/user.decorator';
 import { LoginResponse } from '../auth/response/auth.response';
@@ -62,8 +63,8 @@ export class UserService {
     }
   }
 
-  async getProfiles(user: UserType) {
-    const profiles = await this.accountRepo.find({
+  async getProfiles(user: UserType): Promise<AccountEntity> {
+    const profiles = await this.accountRepo.findOne({
       select: {
         id: true,
         phoneNum: true,
@@ -89,11 +90,14 @@ export class UserService {
     profileId: string,
   ): Promise<LoginResponse> {
     try {
-      const profile = await this.profileRepo.findOneBy({ id: profileId });
+      const profile = await this.profileRepo.findOne({
+        relations: { account: true },
+        where: { id: profileId, account: { id: user.accountId } },
+      });
       const payload = {
         name: profile.name,
         accountId: user.accountId,
-        role: profile.role,
+        role: 'profile',
       };
       return {
         accessToken: this.tokenService.createProfileAccessToken(payload),
