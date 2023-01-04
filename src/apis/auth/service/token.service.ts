@@ -5,7 +5,6 @@ import {
   UserType,
 } from '../../../common/decorator/user.decorator';
 import { ConfigService } from '@nestjs/config';
-import { TokenDto } from '../dto/token.dto';
 
 @Injectable()
 export class TokenService {

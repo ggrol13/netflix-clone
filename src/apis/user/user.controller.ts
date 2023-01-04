@@ -1,16 +1,7 @@
-import {
-  Controller,
-  Post,
-  Body,
-  Delete,
-  Param,
-  UseGuards,
-  Get,
-} from '@nestjs/common';
+import { Controller, Post, Body, Delete, Param, Get } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateAccountDto, CreateProfileDto } from './dto/user.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { User, UserType } from '../../common/decorator/user.decorator';
 import { Role } from '../../common/type/role.type';
 import { Roles } from '../../common/decorator/role.decorator';

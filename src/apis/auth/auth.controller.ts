@@ -1,21 +1,10 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Req,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './service/auth.service';
 import { LocalAuthGuard } from './guard/local-auth.guard';
 import { User, UserType } from '../../common/decorator/user.decorator';
 import { LoginDto } from './dto/auth.dto';
-import { RefreshTokenGuard } from './guard/refresh-token.guard';
 import { TokenService } from './service/token.service';
-import { ResponseInterceptor } from '../../common/interceptor/response.interceptor';
 import { Roles } from '../../common/decorator/role.decorator';
 import { Role } from '../../common/type/role.type';
 
