@@ -5,6 +5,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { User, UserType } from '../../common/decorator/user.decorator';
 import { Role } from '../../common/type/role.type';
 import { Roles } from '../../common/decorator/role.decorator';
+import { GetProfilesResponse } from './response/user.response';
 
 @Controller('user')
 @ApiTags('user')

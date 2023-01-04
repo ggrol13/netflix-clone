@@ -7,6 +7,7 @@ import { ProfileRepository } from './repositories/profile.repository';
 import {
   CreateProfileResponse,
   CreateUserResponse,
+  GetProfilesResponse,
 } from './response/user.response';
 import { UserType } from '../../common/decorator/user.decorator';
 import { LoginResponse } from '../auth/response/auth.response';
@@ -62,39 +63,25 @@ export class UserService {
     }
   }
 
-  async getProfiles(user: UserType): Promise<any> {
-    //findOne 사용 쿼리 2번 날림
-    // return await this.accountRepo.findOne({
-    //   select: {
-    //     id: true,
-    //     phoneNum: true,
-    //     profile: {
-    //       id: true,
-    //       name: true,
-    //       thumbnail: true,
-    //       ageLimit: true,
-    //     },
-    //   },
-    //   relations: ['profile'],
-    //   where: {
-    //     id: user.accountId,
-    //   },
-    // });
-
-    // QueryBuilder 사용 쿼리 1번 날림
-    return await this.accountRepo
-      .createQueryBuilder('account')
-      .leftJoinAndSelect('account.profile', 'profile')
-      .select([
-        'account.id',
-        'account.phoneNum',
-        'profile.id',
-        'profile.name',
-        'profile.ageLimit',
-        'profile.thumbnail',
-      ])
-      .where('account.id IN (:id)', { id: user.accountId })
-      .getOne();
+  async getProfiles(user: UserType): Promise<GetProfilesResponse> {
+    return await this.accountRepo.findOne({
+      select: {
+        id: true,
+        phoneNum: true,
+        profile: {
+          id: true,
+          name: true,
+          thumbnail: true,
+          ageLimit: true,
+        },
+      },
+      relations: {
+        profile: true,
+      },
+      where: {
+        id: user.accountId,
+      },
+    });
   }
 
   async loginProfile(
