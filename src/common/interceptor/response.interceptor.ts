@@ -3,11 +3,19 @@ import {
   NestInterceptor,
   ExecutionContext,
   CallHandler,
+  BadGatewayException,
 } from '@nestjs/common';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
+import { log } from 'util';
 
 export interface Response<T> {
   data: T;
+}
+
+export interface ResponseService {
+  success: true | false;
+  data: any | null;
+  error: any | null;
 }
 
 @Injectable()
@@ -17,20 +25,11 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
     next: CallHandler,
   ): Observable<Response<T>> {
     return next.handle().pipe(
-      map((data) => {
-        if (data.error) {
-          return {
-            success: false,
-            data: null,
-            error: data.data,
-          };
-        }
-        return {
-          success: true,
-          data: data.data,
-          error: null,
-        };
-      }),
+      map((data) => ({
+        statusCode: context.switchToHttp().getResponse().statusCode,
+        success: true,
+        data,
+      })),
     );
   }
 }

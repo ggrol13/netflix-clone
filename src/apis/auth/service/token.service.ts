@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import {
   ProfileType,
@@ -27,7 +27,7 @@ export class TokenService {
         },
       );
     } catch (e) {
-      return e;
+      throw new BadRequestException(e.message);
     }
   }
 

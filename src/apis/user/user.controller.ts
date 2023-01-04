@@ -6,7 +6,6 @@ import {
   Param,
   UseGuards,
   Get,
-  UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateAccountDto, CreateProfileDto } from './dto/user.dto';
@@ -15,8 +14,6 @@ import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { User, UserType } from '../../common/decorator/user.decorator';
 import { Role } from '../../common/type/role.type';
 import { Roles } from '../../common/decorator/role.decorator';
-import { ResponseInterceptor } from '../../common/interceptor/response.interceptor';
-import { UniversalGuard } from '../auth/guard/universal.guard';
 
 @Controller('user')
 @ApiTags('user')
@@ -27,26 +24,15 @@ export class UserController {
    * create user
    **/
   @Post()
-  @UseInterceptors(ResponseInterceptor)
   async create(@Body() dto: CreateAccountDto) {
-    const user = await this.userService.create(dto);
-    if (!user.email) {
-      return {
-        success: false,
-        error: user,
-      };
-    }
-    return {
-      success: true,
-      data: user,
-    };
+    return await this.userService.create(dto);
   }
 
   /**
    * get profiles
    **/
   @Get('profiles')
-  @Roles('account')
+  @Roles(Role.Account)
   async getProfiles(@User() user: UserType) {
     return await this.userService.getProfiles(user);
   }
@@ -54,35 +40,20 @@ export class UserController {
   /**
    * create profile
    **/
-  @UseGuards(JwtAuthGuard)
   @Post('profile')
   @Roles(Role.Account)
-  @UseInterceptors(ResponseInterceptor)
   async createProfile(
     @Body() dto: CreateProfileDto,
     @User() { accountId }: UserType,
   ) {
-    const profile = await this.userService.createProfile(dto, accountId);
-
-    if (!profile['name']) {
-      return {
-        success: false,
-        error: profile,
-      };
-    }
-    return {
-      success: true,
-      data: profile,
-    };
+    return await this.userService.createProfile(dto, accountId);
   }
 
   /**
    * delete profile
    **/
-  @UseGuards(JwtAuthGuard)
   @Delete('profile/:profileId')
   @Roles(Role.Account)
-  @UseInterceptors(ResponseInterceptor)
   deleteProfile(@Param('profileId') profileId: string) {
     return this.userService.deleteProfile(profileId);
   }
@@ -91,13 +62,11 @@ export class UserController {
    * login profile
    **/
   @Post('profile/:profileId')
-  @Roles('account')
-  @UseInterceptors(ResponseInterceptor)
+  @Roles(Role.Account)
   async loginProfile(
     @User() user: UserType,
     @Param('profileId') profileId: string,
   ) {
-    console.log(user);
     return await this.userService.loginProfile(user, profileId);
   }
 }

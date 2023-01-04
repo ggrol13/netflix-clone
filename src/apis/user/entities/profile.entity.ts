@@ -44,7 +44,6 @@ export class ProfileEntity extends BaseEntity {
 
   @ManyToOne(() => AccountEntity, (account) => account.id, {
     createForeignKeyConstraints: false,
-    lazy: true,
   })
   @Index()
   @JoinColumn({ name: 'account_id' })
@@ -55,16 +54,12 @@ export class ProfileEntity extends BaseEntity {
   })
   preference: PreferenceEntity[];
 
-  @OneToMany(
-    () => PickedContentsEntity,
-    (pickedContents) => pickedContents.id,
-    { lazy: true },
-  )
+  @OneToMany(() => PickedContentsEntity, (pickedContents) => pickedContents.id)
   pickedContents: PickedContentsEntity[];
 
-  @OneToMany(() => HistoryEntity, (history) => history.id, { lazy: true })
+  @OneToMany(() => HistoryEntity, (history) => history.id)
   history: HistoryEntity[];
 
-  @OneToMany(() => WatchingEntity, (watching) => watching.id, { lazy: true })
+  @OneToMany(() => WatchingEntity, (watching) => watching.id)
   watching: WatchingEntity[];
 }

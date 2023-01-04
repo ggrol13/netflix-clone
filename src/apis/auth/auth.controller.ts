@@ -16,6 +16,8 @@ import { LoginDto } from './dto/auth.dto';
 import { RefreshTokenGuard } from './guard/refresh-token.guard';
 import { TokenService } from './service/token.service';
 import { ResponseInterceptor } from '../../common/interceptor/response.interceptor';
+import { Roles } from '../../common/decorator/role.decorator';
+import { Role } from '../../common/type/role.type';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -37,21 +39,9 @@ export class AuthController {
   /**
    * auth recreate AccessToken
    **/
-  @UseGuards(RefreshTokenGuard)
+  @Roles(Role.Refresh)
   @Post('refreshToken')
-  @UseInterceptors(ResponseInterceptor)
   async token(@User() user: UserType) {
-    const accessToken = this.tokenService.createAccessToken(user);
-
-    if (!accessToken['iat']) {
-      return {
-        success: false,
-        error: accessToken,
-      };
-    }
-    return {
-      success: true,
-      data: accessToken,
-    };
+    return this.tokenService.createAccessToken(user);
   }
 }
