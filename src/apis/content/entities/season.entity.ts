@@ -3,24 +3,22 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { ContentEntity } from './content.entity';
+import { EpisodeEntity } from './episode.entity';
 
-@Entity('subtitle')
-export class SubtitleEntity extends BaseEntity {
+@Entity('season')
+export class SeasonEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ length: 20, name: 'language', nullable: false })
-  language: string;
-
-  @Column({ length: 256, name: 'subtitle_file_path', nullable: false })
-  subtitleFilePath: string;
+  @Column({ name: 'season_num', nullable: false })
+  seasonNum: string;
 
   @CreateDateColumn({ name: 'created_at', type: Date })
   createdAt: Date;
@@ -31,7 +29,9 @@ export class SubtitleEntity extends BaseEntity {
   @ManyToOne(() => ContentEntity, (content) => content.id, {
     createForeignKeyConstraints: false,
   })
-  @Index()
   @JoinColumn({ name: 'content_id' })
   content: ContentEntity;
+
+  @OneToMany(() => EpisodeEntity, (episode) => episode.id)
+  episode: EpisodeEntity[];
 }

@@ -9,10 +9,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ContentEntity } from '../../contents/entities/content.entity';
+import { ContentEntity } from '../../content/entities/content.entity';
 import { ProfileEntity } from '../../user/entities/profile.entity';
 
-@Entity('picked-contents')
+@Entity('picked-content')
 export class PickedContentsEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;

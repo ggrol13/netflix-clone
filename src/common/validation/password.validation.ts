@@ -6,10 +6,17 @@ export function IsPassword(validationOptions?: ValidationOptions) {
       name: 'isPassword',
       target: object.constructor,
       propertyName,
+      constraints: [],
       options: { message: 'Field password is week', ...validationOptions },
       validator: {
-        //Todo: write logic validate password
         validate(value: any) {
+          const regex =
+            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+          try {
+            regex.test(value);
+          } catch (e) {
+            return false;
+          }
           return typeof value === 'string';
         },
       },

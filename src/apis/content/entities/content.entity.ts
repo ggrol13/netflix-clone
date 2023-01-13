@@ -7,11 +7,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { DubbingEntity } from './dubbing.entity';
 import { EpisodeEntity } from './episode.entity';
 import { GenreEntity } from './genre.entity';
 import { SeasonEntity } from './season.entity';
-import { SubtitleEntity } from './subtitle.entity';
 import { PickedContentsEntity } from '../../preference/entities/picked-contents.entity';
 import { PreferenceEntity } from '../../preference/entities/preference.entity';
 import { HistoryEntity } from '../../history/entities/history.entity';
@@ -19,8 +17,8 @@ import { WatchingEntity } from '../../history/entities/watching.entity';
 
 @Entity('content')
 export class ContentEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid', {})
+  id: string;
 
   @Column({ length: 30, name: 'title', nullable: false })
   title: string;
@@ -31,20 +29,17 @@ export class ContentEntity extends BaseEntity {
   @Column({ type: 'text', name: 'detail', nullable: false })
   detail: string;
 
-  @Column({ type: 'integer', name: 'age_limit', nullable: false })
-  ageLimit: number;
+  @Column({ name: 'age_limit', nullable: false })
+  ageLimit: string;
 
-  @Column({ type: 'integer', name: 'year', nullable: false })
-  year: number;
+  @Column({ name: 'year', nullable: false })
+  year: string;
 
   @Column({ length: 10, name: 'content_type', nullable: false })
   contentType: string;
 
-  @Column({ type: 'integer', name: 'view', nullable: false })
+  @Column({ type: 'integer', name: 'view', nullable: false, default: 0 })
   view: number;
-
-  @Column({ length: 256, name: 'video_path', nullable: false })
-  videoPath: string;
 
   @Column({ length: 20, name: 'language', nullable: false })
   language: string;
@@ -55,9 +50,6 @@ export class ContentEntity extends BaseEntity {
   @UpdateDateColumn({ name: 'updated_at', type: Date })
   updatedAt: Date;
 
-  @OneToMany(() => DubbingEntity, (dubbing) => dubbing.id)
-  dubbing: DubbingEntity[];
-
   @OneToMany(() => EpisodeEntity, (episode) => episode.id)
   episode: EpisodeEntity[];
 
@@ -66,9 +58,6 @@ export class ContentEntity extends BaseEntity {
 
   @OneToMany(() => SeasonEntity, (season) => season.id)
   season: SeasonEntity[];
-
-  @OneToMany(() => SubtitleEntity, (subtitle) => subtitle.id)
-  subtitle: SubtitleEntity[];
 
   @OneToMany(() => PickedContentsEntity, (picked) => picked.id)
   pickedContents: PickedContentsEntity[];

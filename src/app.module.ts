@@ -1,18 +1,14 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { HistoryModule } from './apis/history/history.module';
 import { PreferenceModule } from './apis/preference/preference.module';
-import { ContentsModule } from './apis/contents/contents.module';
+import { ContentModule } from './apis/content/content.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { AuthModule } from './apis/auth/auth.module';
 import { UniversalStrategy } from './apis/auth/strategy/universal.strategy';
 import { UniversalGuard } from './apis/auth/guard/universal.guard';
+import { UploadModule } from './apis/upload/upload.module';
 
 @Module({
   imports: [
@@ -38,7 +34,8 @@ import { UniversalGuard } from './apis/auth/guard/universal.guard';
     AuthModule,
     HistoryModule,
     PreferenceModule,
-    ContentsModule,
+    ContentModule,
+    UploadModule,
   ],
   providers: [UniversalStrategy, UniversalGuard],
 })

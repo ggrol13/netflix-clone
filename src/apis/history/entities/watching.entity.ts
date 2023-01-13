@@ -9,10 +9,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ContentEntity } from '../../contents/entities/content.entity';
+import { ContentEntity } from '../../content/entities/content.entity';
 import { ProfileEntity } from '../../user/entities/profile.entity';
-import { EpisodeEntity } from '../../contents/entities/episode.entity';
-import { SeasonEntity } from '../../contents/entities/season.entity';
+import { EpisodeEntity } from '../../content/entities/episode.entity';
+import { SeasonEntity } from '../../content/entities/season.entity';
 
 @Entity('history')
 export class WatchingEntity extends BaseEntity {

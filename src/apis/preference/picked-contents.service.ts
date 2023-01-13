@@ -5,7 +5,7 @@ import { UpdatePickedContentsDto } from './dto/update-preference.dto';
 @Injectable()
 export class PickedContentsService {
   createPicked(createPickedContentsDto: CreatePickedContentsDto) {
-    return 'This action adds a new picked-contents';
+    return 'This action adds a new picked-content';
   }
 
   findAllPicked() {

@@ -55,7 +55,7 @@ export class PreferenceController {
     return this.preferenceService.remove(+id);
   }
 
-  //picked-contents
+  //picked-content
   @Post()
   createPicked(@Body() createPickedContentsDto: CreatePickedContentsDto) {
     return this.pickedContentsService.createPicked(createPickedContentsDto);

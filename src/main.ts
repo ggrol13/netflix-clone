@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import { UniversalGuard } from './apis/auth/guard/universal.guard';
 import { ResponseInterceptor } from './common/interceptor/response.interceptor';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,6 +18,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);
 
+  app.useGlobalPipes(new ValidationPipe());
   app.useGlobalGuards(app.get(UniversalGuard));
   app.useGlobalInterceptors(new ResponseInterceptor());
   await app.listen(3000);

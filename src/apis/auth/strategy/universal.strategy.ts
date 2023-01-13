@@ -30,7 +30,6 @@ export class UniversalStrategy extends PassportStrategy(Strategy, 'universal') {
       const refreshTokenVerified = await this.verifyRefreshToken(req, token);
       return refreshTokenVerified;
     }
-
     const accessTokenVerified = await this.verifyAccessToken(req, token);
     return accessTokenVerified;
   }
