@@ -43,12 +43,12 @@ export class EpisodeEntity extends BaseEntity {
   @JoinColumn({ name: 'season_id' })
   season: SeasonEntity;
 
-  @OneToMany(() => SubtitleEntity, (subtitle) => subtitle.id)
+  @OneToMany(() => SubtitleEntity, (subtitle) => subtitle.episode)
   subtitle: SubtitleEntity[];
 
-  @OneToMany(() => DubbingEntity, (dubbing) => dubbing.id)
+  @OneToMany(() => DubbingEntity, (dubbing) => dubbing.episode)
   dubbing: DubbingEntity[];
 
-  @OneToMany(() => WatchingEntity, (watching) => watching.id)
+  @OneToMany(() => WatchingEntity, (watching) => watching.episode)
   watching: WatchingEntity[];
 }

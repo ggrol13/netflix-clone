@@ -23,6 +23,9 @@ export class ContentEntity extends BaseEntity {
   @Column({ length: 30, name: 'title', nullable: false })
   title: string;
 
+  @Column({ length: 50, name: 'cast', nullable: false })
+  cast: string;
+
   @Column({ length: 256, name: 'thumbnail', nullable: false })
   thumbnail: string;
 
@@ -50,24 +53,21 @@ export class ContentEntity extends BaseEntity {
   @UpdateDateColumn({ name: 'updated_at', type: Date })
   updatedAt: Date;
 
-  @OneToMany(() => EpisodeEntity, (episode) => episode.id)
-  episode: EpisodeEntity[];
-
-  @OneToMany(() => GenreEntity, (genre) => genre.id)
+  @OneToMany(() => GenreEntity, (genre) => genre.content)
   genre: GenreEntity[];
 
-  @OneToMany(() => SeasonEntity, (season) => season.id)
+  @OneToMany(() => SeasonEntity, (season) => season.content)
   season: SeasonEntity[];
 
-  @OneToMany(() => PickedContentsEntity, (picked) => picked.id)
+  @OneToMany(() => PickedContentsEntity, (picked) => picked.content)
   pickedContents: PickedContentsEntity[];
 
-  @OneToMany(() => PreferenceEntity, (preference) => preference.id)
+  @OneToMany(() => PreferenceEntity, (preference) => preference.content)
   preference: PreferenceEntity[];
 
-  @OneToMany(() => HistoryEntity, (history) => history.id)
+  @OneToMany(() => HistoryEntity, (history) => history.content)
   history: HistoryEntity[];
 
-  @OneToMany(() => WatchingEntity, (watching) => watching.id)
+  @OneToMany(() => WatchingEntity, (watching) => watching.content)
   watching: WatchingEntity[];
 }

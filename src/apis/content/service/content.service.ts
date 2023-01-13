@@ -191,6 +191,48 @@ export class ContentService {
     return 'successfully deleted';
   }
 
+  async getContent(contentId: string): Promise<any> {
+    const content = await this.contentRepo.findOne({
+      select: {
+        id: true,
+        title: true,
+        thumbnail: true,
+        detail: true,
+        ageLimit: true,
+        year: true,
+        cast: true,
+        contentType: true,
+        season: {
+          id: true,
+          seasonNum: true,
+        },
+      },
+      relations: { season: true },
+      where: { id: contentId },
+    });
+    const season = await Promise.all(
+      content.season.map(
+        async (season) =>
+          await this.seasonRepo.findOne({
+            select: {
+              id: true,
+              seasonNum: true,
+              episode: {
+                id: true,
+                thumbnail: true,
+                name: true,
+                detail: true,
+              },
+            },
+            relations: { episode: true },
+            where: { id: season.id },
+          }),
+      ),
+    );
+    content.season = season;
+    return content;
+  }
+
   createGenre(dto: CreateGenreDto) {
     return `This action returns all dubbings`;
   }

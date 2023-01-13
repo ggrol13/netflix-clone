@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -17,7 +18,7 @@ export class SeasonEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'season_num', nullable: false })
+  @Column({ name: 'season_num' })
   seasonNum: string;
 
   @CreateDateColumn({ name: 'created_at', type: Date })
@@ -32,6 +33,6 @@ export class SeasonEntity extends BaseEntity {
   @JoinColumn({ name: 'content_id' })
   content: ContentEntity;
 
-  @OneToMany(() => EpisodeEntity, (episode) => episode.id)
+  @OneToMany(() => EpisodeEntity, (episode) => episode.season)
   episode: EpisodeEntity[];
 }

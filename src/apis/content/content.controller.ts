@@ -55,6 +55,11 @@ export class ContentController {
     return this.contentsService.deleteContent(contentId);
   }
 
+  @Get('/:contentId')
+  async get(@Param('contentId') contentId: string) {
+    return this.contentsService.getContent(contentId);
+  }
+
   //genre
   @Post('genre')
   createGenre(@Body() dto: CreateGenreDto) {

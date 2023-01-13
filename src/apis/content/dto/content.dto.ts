@@ -7,6 +7,9 @@ export class CreateContentDto {
   title: string;
 
   @IsString()
+  cast: string;
+
+  @IsString()
   detail: string;
 
   @IsString()
@@ -32,7 +35,7 @@ export class CreateContentDto {
 
   @IsString({ each: true })
   @IsOptional()
-  seasonNum: string[];
+  seasonNum: string[] | null;
 
   @IsArray()
   @IsOptional()
@@ -82,7 +85,7 @@ export class CreateEpisodeDto {
   detail: string;
 
   @IsString()
-  seasonNum: string;
+  seasonNum: string | null;
 
   @IsArray()
   @IsOptional()
