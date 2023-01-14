@@ -1,11 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { CreateWatchingDto } from './dto/create-history.dto';
 import { UpdateWatchingDto } from './dto/update-history.dto';
+import { ProfileType } from '../../common/decorator/user.decorator';
+import { WatchingRepository } from './repositories/watching.repo';
+import { WatchingEntity } from './entities/watching.entity';
 
 @Injectable()
 export class WatchingService {
-  createWatching(createWatchingDto: CreateWatchingDto) {
-    return 'This action adds a new watching';
+  constructor(private watchingRepo: WatchingRepository) {}
+  async createWatching(
+    dto: CreateWatchingDto,
+    contentId: string,
+    profile: ProfileType,
+    episodeId: string,
+  ): Promise<WatchingEntity> {
+    return await this.watchingRepo.save({
+      ...dto,
+      profile: { id: profile.profileId },
+      content: { id: contentId },
+      episode: { id: episodeId },
+    });
   }
 
   findAllWatching() {

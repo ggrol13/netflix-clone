@@ -30,6 +30,13 @@ export class EpisodeService {
   ): Promise<CreateSeasonDto> {
     await this.dataSource
       .transaction(async (manager) => {
+        if (dto.seasonNum === '2') {
+          await manager.update(
+            SeasonEntity,
+            { content: { id: contentId } },
+            { seasonNum: '1' },
+          );
+        }
         const season = await manager.save(SeasonEntity, {
           seasonNum: dto.seasonNum,
           content: { id: contentId },

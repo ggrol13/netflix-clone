@@ -49,17 +49,20 @@ export class ProfileEntity extends BaseEntity {
   @JoinColumn({ name: 'account_id' })
   account: AccountEntity;
 
-  @OneToMany(() => PreferenceEntity, (preference) => preference.id, {
+  @OneToMany(() => PreferenceEntity, (preference) => preference.profile, {
     lazy: true,
   })
   preference: PreferenceEntity[];
 
-  @OneToMany(() => PickedContentsEntity, (pickedContents) => pickedContents.id)
+  @OneToMany(
+    () => PickedContentsEntity,
+    (pickedContents) => pickedContents.profile,
+  )
   pickedContents: PickedContentsEntity[];
 
-  @OneToMany(() => HistoryEntity, (history) => history.id)
+  @OneToMany(() => HistoryEntity, (history) => history.profile)
   history: HistoryEntity[];
 
-  @OneToMany(() => WatchingEntity, (watching) => watching.id)
+  @OneToMany(() => WatchingEntity, (watching) => watching.profile)
   watching: WatchingEntity[];
 }

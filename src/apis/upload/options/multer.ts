@@ -2,7 +2,7 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 
 export const multer = {
   fileFilter: (request, file, callback) => {
-    if (file.mimetype.match(/\/(jpg|jpeg|png|quicktime|plain)$/)) {
+    if (file.mimetype.match(/\/(jpg|jpeg|png|mp4|plain)$/)) {
       callback(null, true);
     } else {
       callback(

@@ -96,6 +96,7 @@ export class UserService {
       const payload = {
         name: profile.name,
         accountId: user.accountId,
+        profileId: profileId,
         role: 'profile',
       };
       return {

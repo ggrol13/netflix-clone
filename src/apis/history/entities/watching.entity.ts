@@ -12,15 +12,14 @@ import {
 import { ContentEntity } from '../../content/entities/content.entity';
 import { ProfileEntity } from '../../user/entities/profile.entity';
 import { EpisodeEntity } from '../../content/entities/episode.entity';
-import { SeasonEntity } from '../../content/entities/season.entity';
 
-@Entity('history')
+@Entity('watching')
 export class WatchingEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ name: 'time_stamp', type: 'integer', nullable: false })
-  timeStamp: Date;
+  timeStamp: number;
 
   @CreateDateColumn({ name: 'created_at', type: Date })
   createdAt: Date;

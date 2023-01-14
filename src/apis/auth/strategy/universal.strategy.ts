@@ -91,6 +91,14 @@ export class UniversalStrategy extends PassportStrategy(Strategy, 'universal') {
       ) {
         throw new UnauthorizedException('Invalid Token');
       }
+      if (accessDecoded['profileId']) {
+        return {
+          email: accessDecoded['email'],
+          accountId: accessDecoded['accountId'],
+          role: accessDecoded['role'],
+          profileId: accessDecoded['profileId'],
+        };
+      }
 
       return {
         email: accessDecoded['email'],

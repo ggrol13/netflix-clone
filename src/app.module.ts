@@ -9,6 +9,7 @@ import { AuthModule } from './apis/auth/auth.module';
 import { UniversalStrategy } from './apis/auth/strategy/universal.strategy';
 import { UniversalGuard } from './apis/auth/guard/universal.guard';
 import { UploadModule } from './apis/upload/upload.module';
+import { PlayModule } from './apis/play/play.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { UploadModule } from './apis/upload/upload.module';
     HistoryModule,
     PreferenceModule,
     ContentModule,
+    PlayModule,
     UploadModule,
   ],
   providers: [UniversalStrategy, UniversalGuard],

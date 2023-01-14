@@ -12,6 +12,9 @@ import { CreateHistoryDto, CreateWatchingDto } from './dto/create-history.dto';
 import { UpdateHistoryDto, UpdateWatchingDto } from './dto/update-history.dto';
 import { WatchingService } from './watching.service';
 import { ApiTags } from '@nestjs/swagger';
+import { Role } from 'src/common/type/role.type';
+import { Roles } from '../../common/decorator/role.decorator';
+import { Profile, ProfileType } from '../../common/decorator/user.decorator';
 
 @Controller('history')
 @ApiTags('history')
@@ -50,9 +53,20 @@ export class HistoryController {
   }
 
   //play-list
-  @Post()
-  createList(@Body() createWatchingDto: CreateWatchingDto) {
-    return this.watchingService.createWatching(createWatchingDto);
+  @Roles(Role.Profile)
+  @Post('watching/:contentId/:episodeId')
+  async createList(
+    @Body() dto: CreateWatchingDto,
+    @Param('contentId') contentId: string,
+    @Param('episodeId') episodeId: string,
+    @Profile() profile: ProfileType,
+  ) {
+    return await this.watchingService.createWatching(
+      dto,
+      contentId,
+      profile,
+      episodeId,
+    );
   }
 
   @Get()
