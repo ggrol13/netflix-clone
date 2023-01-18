@@ -16,15 +16,13 @@ import {
   CreateGenreDto,
   CreateSeasonDto,
   CreateSubtitleDto,
+  DeleteEpSubDto,
 } from './dto/content.dto';
 
 import { TranslationService } from './service/translation.service';
 import { EpisodeService } from './service/episode.service';
 import { ApiTags } from '@nestjs/swagger';
-import {
-  FileFieldsInterceptor,
-  FileInterceptor,
-} from '@nestjs/platform-express';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { multer } from '../upload/options/multer';
 import {
   uploadContents,
@@ -74,28 +72,36 @@ export class ContentController {
     @Param('contentId') contentId: string,
     @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
-    return this.episodeService.createSeason(dto, contentId, files);
+    const { seasonNum, episode, dubbing, subtitle } = dto;
+    return this.episodeService.createSeason(
+      seasonNum,
+      episode,
+      dubbing,
+      subtitle,
+      contentId,
+      files,
+    );
   }
 
-  @Delete('season/:seasonId')
-  deleteSeason(@Param('seasonId') seasonId: string) {
-    return this.episodeService.deleteSeason(seasonId);
+  @Delete('season')
+  deleteSeason(@Body() dto: DeleteEpSubDto) {
+    return this.episodeService.deleteSeason(dto);
   }
 
   //ep
-  @Post('episode/:seasonId')
+  @Post('episode/:contentId')
   @UseInterceptors(FileFieldsInterceptor(uploadEpisode, multer))
   createEp(
     @Body() dto: CreateEpisodeDto,
-    @Param('seasonId') seasonId: string,
+    @Param('contentId') contentId: string,
     @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
-    return this.episodeService.createEp(dto, seasonId, files);
+    return this.episodeService.createEp(dto, contentId, files);
   }
 
-  @Delete('episode/:episodeId')
-  deleteEp(@Param('episodeId') episodeId: string) {
-    return this.episodeService.deleteEp(episodeId);
+  @Delete('episode')
+  deleteEp(@Body() dto: DeleteEpSubDto) {
+    return this.episodeService.deleteEp(dto);
   }
 
   //subtitles

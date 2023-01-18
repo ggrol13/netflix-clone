@@ -10,6 +10,7 @@ import { SeasonRepository } from './repsositories/season.repository';
 import { DubbingRepository } from './repsositories/dubbing.repository';
 import { SubtitleRepository } from './repsositories/subtitle.repository';
 import { UploadService } from '../upload/upload.service';
+import { ReusableService } from './service/reusable.service';
 
 @Module({
   controllers: [ContentController],
@@ -18,6 +19,7 @@ import { UploadService } from '../upload/upload.service';
     TranslationService,
     EpisodeService,
     UploadService,
+    ReusableService,
     ContentRepository,
     GenreRepository,
     EpisodeRepository,

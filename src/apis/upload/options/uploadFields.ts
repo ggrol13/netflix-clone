@@ -43,18 +43,18 @@ export const uploadSeason = [
 export const uploadEpisode = [
   {
     name: 'thumbEp',
-    maxCount: 1,
+    maxCount: 100,
   },
   {
     name: 'video',
-    maxCount: 1,
+    maxCount: 100,
   },
   {
     name: 'subtitle',
-    maxCount: 3,
+    maxCount: 100,
   },
   {
     name: 'dubbing',
-    maxCount: 3,
+    maxCount: 100,
   },
 ];

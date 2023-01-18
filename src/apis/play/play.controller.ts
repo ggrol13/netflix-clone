@@ -1,7 +1,6 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PlayService } from './play.service';
-import { PlayDto } from './dto/play.dto';
 import { Roles } from '../../common/decorator/role.decorator';
 import { Profile, ProfileType } from '../../common/decorator/user.decorator';
 
@@ -17,14 +16,5 @@ export class PlayController {
     @Param('contentId') contentId: string,
   ) {
     return await this.playService.playContent(profile, contentId);
-  }
-
-  @Roles('profile')
-  @Post(':contentId')
-  async notWatched(
-    @Profile() profile: ProfileType,
-    @Param('contentId') contentId: string,
-  ) {
-    return await this.playService.savePersonalized(profile, contentId);
   }
 }

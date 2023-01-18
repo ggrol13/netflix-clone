@@ -1,13 +1,20 @@
 import { IsPassword } from '../../../common/validation/password.validation';
-import { IsNumber, IsString } from 'class-validator';
+import { IsDateString, IsNumber, IsString } from 'class-validator';
 
 export class CreateAccountDto {
+  @IsString()
   email: string;
+
+  @IsString()
   gender: string;
+
+  @IsString()
   phoneNum: string;
 
   @IsPassword()
   password: string;
+
+  @IsDateString()
   birthDate: Date;
 }
 

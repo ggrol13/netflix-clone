@@ -13,7 +13,9 @@ export function IsPassword(validationOptions?: ValidationOptions) {
           const regex =
             /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
           try {
-            regex.test(value);
+            if (!regex.test(value)) {
+              return false;
+            }
           } catch (e) {
             return false;
           }

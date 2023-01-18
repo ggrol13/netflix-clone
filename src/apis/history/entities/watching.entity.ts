@@ -43,6 +43,7 @@ export class WatchingEntity extends BaseEntity {
 
   @ManyToOne(() => EpisodeEntity, (episode) => episode.id, {
     createForeignKeyConstraints: false,
+    onDelete: 'CASCADE',
   })
   @Index()
   @JoinColumn({ name: 'episode_id' })

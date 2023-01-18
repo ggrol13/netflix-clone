@@ -7,6 +7,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -29,10 +30,13 @@ export class SeasonEntity extends BaseEntity {
 
   @ManyToOne(() => ContentEntity, (content) => content.id, {
     createForeignKeyConstraints: false,
+    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'content_id' })
   content: ContentEntity;
 
-  @OneToMany(() => EpisodeEntity, (episode) => episode.season)
+  @OneToMany(() => EpisodeEntity, (episode) => episode.season, {
+    cascade: true,
+  })
   episode: EpisodeEntity[];
 }

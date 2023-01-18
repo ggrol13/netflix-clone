@@ -1,6 +1,5 @@
 import { IsArray, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { EpisodeSave } from '../interface/content.interface';
 
 export class CreateContentDto {
   @IsString()
@@ -30,8 +29,8 @@ export class CreateContentDto {
   @IsArray()
   @IsOptional()
   @ValidateNested({ each: true })
-  @Type(() => CreateEpisodeDto)
-  episode?: EpisodeSave[];
+  @Type(() => EpisodeOnly)
+  episode?: EpisodeOnly[];
 
   @IsString({ each: true })
   @IsOptional()
@@ -51,18 +50,18 @@ export class CreateContentDto {
 }
 
 export class CreateGenreDto {
-  @IsString()
-  genre: string;
+  @IsString({ each: true })
+  genre: string[];
 }
 
 export class CreateSeasonDto {
-  @IsString()
-  seasonNum: string;
+  @IsString({ each: true })
+  seasonNum: string[];
 
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => CreateEpisodeDto)
-  episode: EpisodeSave[];
+  @Type(() => EpisodeOnly)
+  episode: EpisodeOnly[];
 
   @IsArray()
   @IsOptional()
@@ -78,14 +77,10 @@ export class CreateSeasonDto {
 }
 
 export class CreateEpisodeDto {
-  @IsString()
-  name: string;
-
-  @IsString()
-  detail: string;
-
-  @IsString()
-  seasonNum: string | null;
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => EpisodeOnly)
+  episode: EpisodeOnly[];
 
   @IsArray()
   @IsOptional()
@@ -114,4 +109,20 @@ export class CreateSubtitleDto {
 
   @IsString()
   language: string;
+}
+
+export class EpisodeOnly {
+  @IsString()
+  name: string;
+
+  @IsString()
+  detail: string;
+
+  @IsString()
+  seasonNum: string | null;
+}
+
+export class DeleteEpSubDto {
+  @IsString({ each: true })
+  ids: string[];
 }

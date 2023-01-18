@@ -1,15 +1,12 @@
-import { OmitType } from '@nestjs/swagger';
-import { CreateContentDto, CreateEpisodeDto } from '../dto/content.dto';
+import { IsString } from 'class-validator';
 
-export class ContentSave extends OmitType(CreateContentDto, [
-  'genre',
-  'episode',
-  'dubbing',
-  'seasonNum',
-  'subtitle',
-]) {}
+export class EpisodeOnly {
+  @IsString()
+  name: string;
 
-export class EpisodeSave extends OmitType(CreateEpisodeDto, [
-  'dubbing',
-  'subtitle',
-]) {}
+  @IsString()
+  detail: string;
+
+  @IsString()
+  seasonNum: string | null;
+}

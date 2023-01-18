@@ -1,10 +1,14 @@
-import { PickType } from '@nestjs/swagger';
-import { EpisodeEntity } from '../../content/entities/episode.entity';
-
-export class PlayContentResponse extends PickType(EpisodeEntity, [
-  'id',
-  'name',
-  'thumbnail',
-  'detail',
-  'videoFilePath',
-]) {}
+export class PlayResponse {
+  season: {
+    id: string;
+    seasonNum: string;
+  };
+  episode: {
+    id: string;
+    name: string;
+    thumbnail: string;
+    detail: string;
+    videoFilePath: string;
+  };
+  timeStamp: number;
+}

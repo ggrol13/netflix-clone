@@ -4,7 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -27,8 +27,9 @@ export class SubtitleEntity extends BaseEntity {
   @UpdateDateColumn({ name: 'updated_at', type: Date })
   updatedAt: Date;
 
-  @ManyToOne(() => EpisodeEntity, (episode) => episode.id, {
+  @OneToOne(() => EpisodeEntity, (episode) => episode.id, {
     createForeignKeyConstraints: false,
+    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'episode_id' })
   episode: EpisodeEntity;
