@@ -44,7 +44,7 @@ export class UploadService {
         }),
       );
 
-      return url;
+      return urls;
     } catch (error) {
       throw error;
     }
