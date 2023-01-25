@@ -1,10 +1,17 @@
 import { Module } from '@nestjs/common';
-import { PreferenceService } from './preference.service';
+import { PreferenceService } from './service/preference.service';
 import { PreferenceController } from './preference.controller';
-import { PickedContentsService } from './picked-contents.service';
+import { PickedContentsService } from './service/picked-contents.service';
+import { PreferenceRepository } from './repositories/preference.repo';
+import { PickedContentsRepository } from './repositories/picked-contents.repo';
 
 @Module({
   controllers: [PreferenceController],
-  providers: [PreferenceService, PickedContentsService],
+  providers: [
+    PreferenceService,
+    PickedContentsService,
+    PreferenceRepository,
+    PickedContentsRepository,
+  ],
 })
 export class PreferenceModule {}

@@ -16,7 +16,8 @@ import {
   CreateGenreDto,
   CreateSeasonDto,
   CreateSubtitleDto,
-  DeleteEpSubDto,
+  DeleteEpisodeDto,
+  DeleteSeasonDto,
 } from './dto/content.dto';
 
 import { TranslationService } from './service/translation.service';
@@ -100,7 +101,7 @@ export class ContentController {
   }
 
   @Delete('episode')
-  deleteEp(@Body() dto: DeleteEpSubDto) {
+  deleteEp(@Body() dto: DeleteEpisodeDto) {
     return this.episodeService.deleteEp(dto);
   }
 

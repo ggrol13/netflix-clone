@@ -34,7 +34,7 @@ export class CreateContentDto {
 
   @IsString({ each: true })
   @IsOptional()
-  seasonNum: string[] | null;
+  seasonNum?: string[];
 
   @IsArray()
   @IsOptional()
@@ -126,3 +126,5 @@ export class DeleteEpSubDto {
   @IsString({ each: true })
   ids: string[];
 }
+
+export class DeleteEpisodeDto extends DeleteSeasonDto {}

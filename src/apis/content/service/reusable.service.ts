@@ -67,24 +67,24 @@ export class ReusableService {
         '/video',
         'video',
       );
-      episode.map((ep) => {
+      const episodes = episode.map((ep) => {
         const index = episode.indexOf(ep);
-        ep['thumbnail'] = thumbEp[index];
+        return {
+          ...ep,
+          thumbnail: thumbEp[index],
+          videoFilePath: epVideos[index],
+        };
       });
-      episode.map((ep) => {
-        const index = episode.indexOf(ep);
-        ep['videoFilePath'] = epVideos[index];
-      });
-
       seasonId.map((id) => {
         const index = seasonId.indexOf(id);
-        episode.map((ep) => {
+        episodes.map((ep) => {
           if (seasonNum[index] === ep.seasonNum) {
-            ep['season'] = { id };
+            ep['season'] = { id: id };
           }
         });
       });
-      await manager.insert(EpisodeEntity, episode);
+
+      await manager.insert(EpisodeEntity, episodes);
     }
 
     if (dubbing) {
@@ -130,7 +130,7 @@ export class ReusableService {
     }
   }
 
-  async deleteEpDubSub(episodeId: DeleteEpSubDto) {
+  async deleteEpDubSub(episodeId: DeleteSeasonDto) {
     await this.dataSource
       .transaction(async (manager) => {
         await manager.delete(EpisodeEntity, episodeId.ids);

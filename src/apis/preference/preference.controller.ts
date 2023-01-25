@@ -1,23 +1,12 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
-import { PreferenceService } from './preference.service';
-import {
-  CreatePickedContentsDto,
-  CreatePreferenceDto,
-} from './dto/create-preference.dto';
-import {
-  UpdatePickedContentsDto,
-  UpdatePreferenceDto,
-} from './dto/update-preference.dto';
-import { PickedContentsService } from './picked-contents.service';
+import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import { PreferenceService } from './service/preference.service';
+
+import { PickedContentsService } from './service/picked-contents.service';
 import { ApiTags } from '@nestjs/swagger';
+import { Roles } from '../../common/decorator/role.decorator';
+import { Role } from '../../common/type/role.type';
+import { Profile, ProfileType } from '../../common/decorator/user.decorator';
+import { CreatePreferenceDto } from './dto/preference.dto';
 
 @Controller('preference')
 @ApiTags('preference')
@@ -27,63 +16,49 @@ export class PreferenceController {
     private readonly pickedContentsService: PickedContentsService,
   ) {}
 
-  @Post()
-  create(@Body() createPreferenceDto: CreatePreferenceDto) {
-    return this.preferenceService.create(createPreferenceDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.preferenceService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.preferenceService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updatePreferenceDto: UpdatePreferenceDto,
+  //preference
+  @Roles(Role.Profile)
+  @Post('/:contentId')
+  async createPreference(
+    @Body() dto: CreatePreferenceDto,
+    @Param('contentId') contentId: string,
+    @Profile() profile: ProfileType,
   ) {
-    return this.preferenceService.update(+id, updatePreferenceDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.preferenceService.remove(+id);
-  }
-
-  //picked-content
-  @Post()
-  createPicked(@Body() createPickedContentsDto: CreatePickedContentsDto) {
-    return this.pickedContentsService.createPicked(createPickedContentsDto);
-  }
-
-  @Get()
-  findAllPicked() {
-    return this.pickedContentsService.findAllPicked();
-  }
-
-  @Get(':id')
-  findOnePicked(@Param('id') id: string) {
-    return this.pickedContentsService.findOnePicked(+id);
-  }
-
-  @Patch(':id')
-  updatePicked(
-    @Param('id') id: string,
-    @Body() updatePickedContentsDto: UpdatePickedContentsDto,
-  ) {
-    return this.pickedContentsService.updatePicked(
-      +id,
-      updatePickedContentsDto,
+    const { profileId } = profile;
+    return await this.preferenceService.createPreference(
+      dto,
+      contentId,
+      profileId,
     );
   }
 
-  @Delete(':id')
-  removePicked(@Param('id') id: string) {
-    return this.pickedContentsService.removePicked(+id);
+  @Roles(Role.Profile)
+  @Delete(':preferenceId')
+  async deletePreference(@Param('preferenceId') preferenceId: string) {
+    return this.preferenceService.deletePreference(preferenceId);
+  }
+
+  //picked-content
+  @Roles(Role.Profile)
+  @Post('picked/:contentId')
+  createPicked(
+    @Profile() profile: ProfileType,
+    @Param('contentId') contentId: string,
+  ) {
+    const { profileId } = profile;
+    return this.pickedContentsService.createPicked(profileId, contentId);
+  }
+
+  @Roles(Role.Profile)
+  @Get('picked')
+  async getPicked(@Profile() profile: ProfileType) {
+    const { profileId } = profile;
+    return await this.pickedContentsService.getPicked(profileId);
+  }
+
+  @Roles(Role.Profile)
+  @Delete('picked/:pickedId')
+  async deletePicked(@Param('pickedId') pickedId: string) {
+    return await this.pickedContentsService.deletePicked(pickedId);
   }
 }

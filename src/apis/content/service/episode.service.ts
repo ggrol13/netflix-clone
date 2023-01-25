@@ -76,7 +76,7 @@ export class EpisodeService {
     return { seasonNum, episode, dubbing, subtitle };
   }
 
-  async deleteSeason(dto: DeleteEpSubDto): Promise<string> {
+  async deleteSeason(dto: DeleteSeasonDto): Promise<string> {
     const episode = await this.episodeRepo.findBy({
       season: In(dto.ids),
     });
@@ -126,7 +126,7 @@ export class EpisodeService {
     return dto;
   }
 
-  async deleteEp(dto: DeleteEpSubDto) {
+  async deleteEp(dto: DeleteEpisodeDto) {
     await this.reusableService.deleteEpDubSub(dto);
     return 'successfully deleted';
   }

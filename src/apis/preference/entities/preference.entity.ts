@@ -17,7 +17,7 @@ export class PreferenceEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'integer', nullable: false, name: 'preference' })
+  @Column({ nullable: false, name: 'preference' })
   preference: string;
 
   @CreateDateColumn({ name: 'created_at', type: Date })

@@ -6,6 +6,7 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -41,9 +42,8 @@ export class WatchingEntity extends BaseEntity {
   @JoinColumn({ name: 'profile_id' })
   profile: ProfileEntity;
 
-  @ManyToOne(() => EpisodeEntity, (episode) => episode.id, {
+  @OneToOne(() => EpisodeEntity, (episode) => episode.id, {
     createForeignKeyConstraints: false,
-    onDelete: 'CASCADE',
   })
   @Index()
   @JoinColumn({ name: 'episode_id' })

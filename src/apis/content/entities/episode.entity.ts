@@ -40,23 +40,16 @@ export class EpisodeEntity extends BaseEntity {
 
   @ManyToOne(() => SeasonEntity, (season) => season.id, {
     createForeignKeyConstraints: false,
-    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'season_id' })
   season: SeasonEntity;
 
-  @OneToOne(() => SubtitleEntity, (subtitle) => subtitle.episode, {
-    cascade: true,
-  })
+  @OneToOne(() => SubtitleEntity, (subtitle) => subtitle.episode, {})
   subtitle: SubtitleEntity[];
 
-  @OneToOne(() => DubbingEntity, (dubbing) => dubbing.episode, {
-    cascade: true,
-  })
+  @OneToOne(() => DubbingEntity, (dubbing) => dubbing.episode, {})
   dubbing: DubbingEntity[];
 
-  @OneToOne(() => WatchingEntity, (watching) => watching.episode, {
-    cascade: true,
-  })
+  @OneToOne(() => WatchingEntity, (watching) => watching.episode, {})
   watching: WatchingEntity[];
 }

@@ -29,7 +29,6 @@ export class SubtitleEntity extends BaseEntity {
 
   @OneToOne(() => EpisodeEntity, (episode) => episode.id, {
     createForeignKeyConstraints: false,
-    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'episode_id' })
   episode: EpisodeEntity;
