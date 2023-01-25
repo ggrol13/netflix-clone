@@ -122,7 +122,7 @@ export class EpisodeOnly {
   seasonNum: string | null;
 }
 
-export class DeleteEpSubDto {
+export class DeleteSeasonDto {
   @IsString({ each: true })
   ids: string[];
 }

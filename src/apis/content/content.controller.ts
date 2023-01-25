@@ -42,7 +42,7 @@ export class ContentController {
 
   @Post('')
   @UseInterceptors(FileFieldsInterceptor(uploadContents, multer))
-  async create(
+  async createContent(
     @Body() dto: CreateContentDto,
     @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
@@ -50,13 +50,13 @@ export class ContentController {
   }
 
   @Delete('/:contentId')
-  async delete(@Param('contentId') contentId: string) {
+  async deleteContent(@Param('contentId') contentId: string) {
     return this.contentsService.deleteContent(contentId);
   }
 
   @Get('/:contentId')
-  async get(@Param('contentId') contentId: string) {
-    return this.contentsService.getContent(contentId);
+  async findOneContent(@Param('contentId') contentId: string) {
+    return this.contentsService.findOneContent(contentId);
   }
 
   //genre
@@ -85,7 +85,7 @@ export class ContentController {
   }
 
   @Delete('season')
-  deleteSeason(@Body() dto: DeleteEpSubDto) {
+  deleteSeason(@Body() dto: DeleteSeasonDto) {
     return this.episodeService.deleteSeason(dto);
   }
 
